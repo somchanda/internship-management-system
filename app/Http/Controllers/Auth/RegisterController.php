@@ -52,7 +52,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['regex:/^0[1-9][0-9]{8,9}$/'],
+            'phone' => ['regex:/^0[1-9][0-9]{7,8}$/'],
             'type' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -72,10 +72,10 @@ class RegisterController extends Controller
             $image = base64_decode($base64);
             $photo = imagecreatefromstring($image);
 
-            $name=time().'user_profile_pic.png';
+            $name=time().$data['first_name'].'_'.$data['last_name'].'_profile_pic.png';
             $destinationPath='img/'.$name;
             imagepng($photo, $destinationPath, 9);
-            $photo=$name;
+            $photo='img/'.$name;
         }else{
             if ($data['sex']=='Female'){
                 $photo = 'img/woman_profile_icon.png';
