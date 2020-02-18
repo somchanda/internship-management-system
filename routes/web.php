@@ -20,3 +20,7 @@ Route::post('/update_session', 'Controller@updateSession');
 Route::get('/trainer/layout', function (){
     return view('trainer.layout');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

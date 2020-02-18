@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Internship Management</title>
+    <link rel="icon" href="{{ asset('img/system_icon.png') }}"/>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -137,7 +138,7 @@ if(!session()->has('sidebar_dropdown')){
                 <button type="button" id="sidebarCollapse" class="btn btn-info rounded rounded-circle d-flex align-items-center align-self-center">
                     <i class="fa fa-chevron-{{ session('side_bar') == 'open'?'left':'right' }}"></i>
                 </button>
-                <div style="margin-left: 5px; font-size: 18px;">Mediatheque</div>
+                <div style="margin-left: 5px; font-size: 18px;">Internship Agreement</div>
             </div>
         </nav>
         <div class="container-fluid">
