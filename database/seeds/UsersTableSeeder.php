@@ -14,6 +14,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Mrs',
             'last_name' => 'Admin',
+            'sex' => 'Female',
             'phone' => '012345678',
             'photo' => 'img/woman_profile_icon.png',
             'type' => 'Admin',
@@ -25,6 +26,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Vithuroath',
             'last_name' => 'Vun',
+            'sex' => 'Male',
             'phone' => '012345679',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainer',
@@ -36,6 +38,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Ratanak',
             'last_name' => 'Mak',
+            'sex' => 'Male',
             'phone' => '012345677',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainee',
@@ -47,6 +50,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Chanda',
             'last_name' => 'Som',
+            'sex' => 'Male',
             'phone' => '012345676',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainee',

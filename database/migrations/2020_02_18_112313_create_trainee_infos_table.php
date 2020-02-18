@@ -18,7 +18,6 @@ class CreateTraineeInfosTable extends Migration
             $table->enum('internship_status',['Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');
-            $table->enum('sex',['Male','Female']);
             $table->enum('martial_status',['Single','Married']);
             $table->float('height');
             $table->string('nationality');

@@ -50,7 +50,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone' => ['regex:/^0[1-9][0-9]{8,9}$/'],
+            'type' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -64,8 +67,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if(request('cropedImage') != null){
+            $base64 = explode(',', request('cropedImage'))[1];
+            $image = base64_decode($base64);
+            $photo = imagecreatefromstring($image);
+
+            $name=time().'user_profile_pic.png';
+            $destinationPath='img/'.$name;
+            imagepng($photo, $destinationPath, 9);
+            $photo=$name;
+        }else{
+            if ($data['sex']=='Female'){
+                $photo = 'img/woman_profile_icon.png';
+            }
+            else{
+                $photo = 'img/man_profile_icon.png';
+            }
+        }
+
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
+            'photo' => $photo,
+            'type' => $data['type'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
