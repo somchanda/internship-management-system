@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/update_session', 'Controller@updateSession');
+
+Route::get('/trainer/layout', function (){
+    return view('trainer.layout');
+});
