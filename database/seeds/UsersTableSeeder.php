@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '012345679',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainer',
-            'email' => 'vithouroth@allweb.com.kh',
+            'email' => 'vithuroath.vun@allweb.com.kh',
             'password' => Hash::make('12345678'),
 
         ]);
@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '012345677',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainee',
-            'email' => 'mak.ratanak@allweb.com.kh',
+            'email' => 'ratanak.mak@allweb.com.kh',
             'password' => Hash::make('12345678'),
 
         ]);
@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '012345676',
             'photo' => 'img/man_profile_icon.png',
             'type' => 'Trainee',
-            'email' => 'som.chanda@allweb.com.kh',
+            'email' => 'chanda.som@allweb.com.kh',
             'password' => Hash::make('12345678'),
 
         ]);

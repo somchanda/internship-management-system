@@ -17,10 +17,21 @@ Route::get('/', function () {
 
 Route::post('/update_session', 'Controller@updateSession');
 
-Route::get('/trainer/layout', function (){
-    return view('trainer.layout');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// view trainee dashboard
+Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
+    return view('/trainee.dashboard');
+}]);
+
+// view trainer layout
+Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
+    return view('trainer.layout');
+}]);
+
+// view trainer or admin dashboard
+Route::get('/trainer/dashboard', ['middleware' => 'trainer', function () {
+    return view('trainer.dashboard');
+}]);

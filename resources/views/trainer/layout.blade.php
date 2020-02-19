@@ -30,8 +30,8 @@ if(!session()->has('sidebar_dropdown')){
         <div class="sidebar-header">
             <div class="img_profile_container img-wrapper" >
 
-{{--                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset(Auth::user()->photo) }}" alt="profile picture">--}}
-                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset('img/woman_profile_icon.png') }}" alt="profile picture">
+                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset(Auth::user()->photo) }}" alt="profile picture">
+{{--                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset('img/woman_profile_icon.png') }}" alt="profile picture">--}}
 {{--                <form name="profileForm" action="{{ Auth::user()->id }}/submit_profile" method="post" enctype="multipart/form-data">--}}
 {{--                    @csrf--}}
 {{--                    <input type="file" id="img_user" name="submit_image" style="display:none;">--}}
@@ -44,13 +44,9 @@ if(!session()->has('sidebar_dropdown')){
                 <!-- <input type="button" value="Select" onclick="document.getElementById('img_user').click()"> -->
             </div>
             <div class="text-center sideber-text mt-3 mb-0">
-{{--                <div style="font-size: 18px; font-weight: bold;">{{Auth::user()->name }}</div>--}}
-{{--                <div id="positionInfo" style="font-style: italic; display: none;">{{Auth::user()->position }}</div>--}}
-{{--                <div id="emailInfo" style="display: none;"><u>{{Auth::user()->email }}</u></div>--}}
-
-                <div style="font-size: 18px; font-weight: bold;">Name</div>
-                <div id="positionInfo" style="font-style: italic; display: none;">Position</div>
-                <div id="emailInfo" style="display: none;"><u>Email</u></div>
+                <div style="font-size: 18px; font-weight: bold;">{{Auth::user()->first_name.' '.Auth::user()->last_name }}</div>
+                <div id="positionInfo" style="font-style: italic; display: none;">{{Auth::user()->type }}</div>
+                <div id="emailInfo" style="display: none;"><u>{{Auth::user()->email }}</u></div>
 
                 <div id="btnShowMoreInfo" title="show more profile information">
                     <i class="fas fa-caret-down"></i>
@@ -108,23 +104,23 @@ if(!session()->has('sidebar_dropdown')){
 
         <ul class="list-unstyled CTAs">
             <li>
-{{--                <a href="{{ route('logout') }}" class="article" onclick="event.preventDefault();--}}
-{{--                document.getElementById('logout-form').submit();">--}}
-{{--                <i class="fas fa-sign-out-alt"></i> Sign out--}}
-{{--                </a>--}}
-
-                <a href="#" class="article" onclick="event.preventDefault();
+                <a href="{{ route('logout') }}" class="article" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> Sign out
                 </a>
 
-{{--                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-{{--                    @csrf--}}
-{{--                </form>--}}
+{{--                <a href="#" class="article" onclick="event.preventDefault();--}}
+{{--                document.getElementById('logout-form').submit();">--}}
+{{--                <i class="fas fa-sign-out-alt"></i> Sign out--}}
+{{--                </a>--}}
 
-                <form id="logout-form" action="#" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
+
+{{--                <form id="logout-form" action="#" method="POST" style="display: none;">--}}
+{{--                    @csrf--}}
+{{--                </form>--}}
             </li>
         </ul>
     </nav>
@@ -138,7 +134,9 @@ if(!session()->has('sidebar_dropdown')){
                 <button type="button" id="sidebarCollapse" class="btn btn-info rounded rounded-circle d-flex align-items-center align-self-center">
                     <i class="fa fa-chevron-{{ session('side_bar') == 'open'?'left':'right' }}"></i>
                 </button>
-                <div style="margin-left: 5px; font-size: 18px;">Internship Agreement</div>
+                <div style="margin-left: 5px; font-size: 18px;">
+                    @yield('section_title', 'Internship Management System')
+                </div>
             </div>
         </nav>
         <div class="container-fluid">
