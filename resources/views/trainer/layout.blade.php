@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Internship Management</title>
+    <title>Internship Management System</title>
     <link rel="icon" href="{{ asset('img/system_icon.png') }}"/>
     <meta charset="UTF-8">
     <meta name="viewport"

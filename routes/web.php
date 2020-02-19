@@ -11,15 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'Controller@redirect');
 
 Route::post('/update_session', 'Controller@updateSession');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 // view trainee dashboard
 Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
