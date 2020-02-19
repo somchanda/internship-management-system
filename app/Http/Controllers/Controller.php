@@ -31,4 +31,16 @@ class Controller extends BaseController
 
         return redirect('login');
     }
+
+    public function accountList(){
+        if(Auth::user()){
+            if(Auth::user()->type == 'Admin' || Auth::user()->type == 'Trainer'){
+                return redirect('/trainer/dashboard');
+            }else{
+                return redirect('/trainee/dashboard');
+            }
+        }
+
+        return redirect('login');
+    }
 }

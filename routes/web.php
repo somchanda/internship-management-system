@@ -14,9 +14,17 @@
 
 Route::get('/', 'Controller@redirect');
 
+Route::get('/account_list', 'Controller@accountList');
+
 Route::post('/update_session', 'Controller@updateSession');
 
 Auth::routes();
+
+Route::get('/trainer/create_account', ['middleware' => 'trainer', function(){
+    return view('auth.register');
+}]);
+
+Route::post('/trainer/create_account', 'UserController@createAccount')->middleware('trainer');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
@@ -34,3 +42,7 @@ Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
 Route::get('/trainer/dashboard', ['middleware' => 'trainer', function () {
     return view('trainer.dashboard');
 }]);
+
+Route::get('/back', function (){
+    return back();
+});

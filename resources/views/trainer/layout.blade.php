@@ -23,6 +23,15 @@ if(!session()->has('side_bar')){
 if(!session()->has('sidebar_dropdown')){
     session(['sidebar_dropdown'=>'close']);
 }
+
+if(!session()->has('sidebar_dropdown_manage_account')){
+    session(['sidebar_dropdown_manage_account'=>'close']);
+}
+
+if(!session()->has('sidebar_dropdown_manage_appraisal')){
+    session(['sidebar_dropdown_manage_appraisal'=>'close']);
+}
+
 ?>
 <div class="wrapper">
     <!-- Sidebar  -->
@@ -45,8 +54,8 @@ if(!session()->has('sidebar_dropdown')){
             </div>
             <div class="text-center sideber-text mt-3 mb-0">
                 <div style="font-size: 18px; font-weight: bold;">{{Auth::user()->first_name.' '.Auth::user()->last_name }}</div>
-                <div id="positionInfo" style="font-style: italic; display: none;">{{Auth::user()->type }}</div>
-                <div id="emailInfo" style="display: none;"><u>{{Auth::user()->email }}</u></div>
+                <div style="font-style: italic; display: block;">{{Auth::user()->type }}</div>
+                <div id="emailInfo" style="display: none;">{{Auth::user()->email }}</div>
 
                 <div id="btnShowMoreInfo" title="show more profile information">
                     <i class="fas fa-caret-down"></i>
@@ -56,30 +65,64 @@ if(!session()->has('sidebar_dropdown')){
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#">
+                <a href="/trainer/dashboard">
                     <i class="material-icons">dashboard</i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a id="btnUpload">
-                    <i class="fas fa-images"></i>
-                    <span>Manage Album</span>
+                <a id="btnManageAccount" href="#subMenuManageAccount" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="material-icons">people_outline</i>
+                    Manage Accounts
                 </a>
+                <ul class="collapse list-unstyled {{ session('sidebar_dropdown_manage_account') === 'open'?'show':'' }}" id="subMenuManageAccount">
+                    <li>
+                        <a href="#">
+                            <i class="material-icons">
+                                format_list_bulleted
+                            </i>
+                            <span>Accounts List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/trainer/create_account">
+                            <i class="material-icons">
+                                person_add
+                            </i>
+                            <span>Create Account</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
+
             <li>
-                <a id="btnUpload">
-                    <i class="fas fa-image"></i>
-                    <span>Manage Picture</span>
+                <a id="btnManageAppraisal" href="#subMenuManageAppraisal" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="material-icons">
+                        insert_chart
+                    </i>
+                    Manage Appraisal
                 </a>
+                <ul class="collapse list-unstyled {{ session('sidebar_dropdown_manage_appraisal') === 'open'?'show':'' }}" id="subMenuManageAppraisal">
+                    <li>
+                        <a href="#">
+                            <i class="material-icons">
+                                format_list_bulleted
+                            </i>
+                            <span>Appraisal List</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="material-icons">
+                                post_add
+                            </i>
+                            <span>Make Appraisal</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
+
             <li>
-                <a id="btnUpload" data-toggle="modal" data-target="#chooseUploadOptionModal">
-                    <i class="material-icons">cloud_upload</i>
-                    <span>Upload Picture</span>
-                </a>
-            </li>
-            <li class="active">
                 <a id="btnSetting" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-user-cog"></i>
                     Setting
@@ -89,7 +132,7 @@ if(!session()->has('sidebar_dropdown')){
                     <li>
                         <a href="/account/edit">
                             <i class="fas fa-user-edit"></i>
-                            <span>Edit Account</span>
+                            <span>Edit Profile</span>
                         </a>
                     </li>
                     <li>
@@ -104,23 +147,19 @@ if(!session()->has('sidebar_dropdown')){
 
         <ul class="list-unstyled CTAs">
             <li>
+                <a href="#">
+                    <div class="btn btn-outline-light">Profile</div>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('logout') }}" class="article" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> Sign out
                 </a>
 
-{{--                <a href="#" class="article" onclick="event.preventDefault();--}}
-{{--                document.getElementById('logout-form').submit();">--}}
-{{--                <i class="fas fa-sign-out-alt"></i> Sign out--}}
-{{--                </a>--}}
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-
-{{--                <form id="logout-form" action="#" method="POST" style="display: none;">--}}
-{{--                    @csrf--}}
-{{--                </form>--}}
             </li>
         </ul>
     </nav>
@@ -197,12 +236,32 @@ if(!session()->has('sidebar_dropdown')){
 
         $('#btnSetting').on('click', function () {
 
-            class_name = $('#homeSubmenu').attr('class');
-            console.log(class_name)
+            // class_name = $('#homeSubmenu').attr('class');
+            // console.log(class_name)
             if($('#homeSubmenu').hasClass('show')){
                 update_session('sidebar_dropdown', 'close')
             }else{
                 update_session('sidebar_dropdown', 'open')
+            }
+        });
+
+        $('#btnManageAccount').on('click', function () {
+
+            // class_name = $('#subMenuManageAccount').attr('class');
+            // console.log(class_name)
+            if($('#subMenuManageAccount').hasClass('show')){
+                update_session('sidebar_dropdown_manage_account', 'close')
+            }else{
+                update_session('sidebar_dropdown_manage_account', 'open')
+            }
+        });
+
+        $('#btnManageAppraisal').on('click', function () {
+
+            if($('#subMenuManageAccount').hasClass('show')){
+                update_session('sidebar_dropdown_manage_appraisal', 'close')
+            }else{
+                update_session('sidebar_dropdown_manage_appraisal', 'open')
             }
         });
 
@@ -211,13 +270,11 @@ if(!session()->has('sidebar_dropdown')){
             if($('#btnShowMoreInfo > i').attr('class') === 'fas fa-caret-down'){
                 $('#btnShowMoreInfo').attr('title', 'hide profile information');
 
-                $('#positionInfo').attr('style', 'font-style: italic; display: block;');
                 $('#emailInfo').attr('style', 'display: block;');
                 $('#btnShowMoreInfo > i').attr('class', 'fas fa-caret-up');
             }else{
                 $('#btnShowMoreInfo').attr('title', 'show more profile information');
 
-                $('#positionInfo').attr('style', 'font-style: italic; display: none;');
                 $('#emailInfo').attr('style', 'display: none;');
                 $('#btnShowMoreInfo > i').attr('class', 'fas fa-caret-down');
             }
