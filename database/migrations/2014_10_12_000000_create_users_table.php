@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name');
+            $table->enum('sex',['Male','Female']);
             $table->string('phone')->nullable();
             $table->string('photo')->nullable();
             $table->enum('type', ['Admin', 'Trainer', 'Trainee']);

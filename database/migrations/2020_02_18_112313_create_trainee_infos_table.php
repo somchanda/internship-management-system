@@ -15,16 +15,17 @@ class CreateTraineeInfosTable extends Migration
     {
         Schema::create('trainee_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('internship_status',['Fail','Stop','Continue']);
+            $table->enum('internship_status',['Interning','Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');
-            $table->enum('sex',['Male','Female']);
             $table->enum('martial_status',['Single','Married']);
             $table->float('height');
             $table->string('nationality');
             $table->date('dob');
             $table->string('hobbies')->nullable();
             $table->string('place_of_birth');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('reference_name');
             $table->string('reference_position');
             $table->string('reference_phone');

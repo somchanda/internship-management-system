@@ -9,6 +9,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/admin_layout_style.css') }}">
     @yield('stylesheet')
@@ -178,7 +180,9 @@ if(!session()->has('sidebar_dropdown')){
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 <script src="https://kit.fontawesome.com/8d4428d323.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
@@ -251,6 +255,8 @@ if(!session()->has('sidebar_dropdown')){
         // $('input[name="submit_image"]').change(function () {
         //     $('form[name="profileForm"]').submit();
         // });
+
+
 
 
         @yield('script')
