@@ -58,5 +58,29 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('12345678'),
 
         ]);
+
+        DB::table('users')->insert([
+            'first_name' => 'Sievphygn',
+            'last_name' => 'Cheath',
+            'sex' => 'Male',
+            'phone' => '012345675',
+            'photo' => 'img/man_profile_icon.png',
+            'type' => 'Trainee',
+            'email' => 'sievphygn.cheath@allweb.com.kh',
+            'password' => Hash::make('12345678'),
+
+        ]);
+
+        DB::table('users')->insert([
+            'first_name' => 'Chanmony',
+            'last_name' => 'Keat',
+            'sex' => 'Male',
+            'phone' => '012345674',
+            'photo' => 'img/man_profile_icon.png',
+            'type' => 'Trainee',
+            'email' => 'chanmony.keat@allweb.com.kh',
+            'password' => Hash::make('12345678'),
+
+        ]);
     }
 }

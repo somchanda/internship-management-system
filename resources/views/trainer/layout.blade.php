@@ -260,7 +260,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
 
         $('#btnManageAppraisal').on('click', function () {
 
-            if($('#subMenuManageAccount').hasClass('show')){
+            if($('#subMenuManageAppraisal').hasClass('show')){
                 update_session('sidebar_dropdown_manage_appraisal', 'close')
             }else{
                 update_session('sidebar_dropdown_manage_appraisal', 'open')
