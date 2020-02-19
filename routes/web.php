@@ -20,11 +20,11 @@ Route::post('/update_session', 'Controller@updateSession');
 
 Auth::routes();
 
-Route::get('/trainer/create_account', ['middleware' => 'trainer', function(){
+Route::get('/trainer/create_account', ['middleware' => 'admin', function(){
     return view('auth.register');
 }]);
 
-Route::post('/trainer/create_account', 'UserController@createAccount')->middleware('trainer');
+Route::post('/trainer/create_account', 'UserController@createAccount')->middleware('admin');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 

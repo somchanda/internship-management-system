@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '012345678',
             'photo' => 'img/woman_profile_icon.png',
             'type' => 'Admin',
-            'email' => 'admin@gmail.com',
+            'email' => 'mrs.admin@allweb.com.kh',
             'password' => Hash::make('12345678'),
 
         ]);

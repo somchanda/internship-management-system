@@ -84,14 +84,16 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                             <span>Accounts List</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="/trainer/create_account">
-                            <i class="material-icons">
-                                person_add
-                            </i>
-                            <span>Create Account</span>
-                        </a>
-                    </li>
+                    @if(Auth::user()->type == 'Admin')
+                        <li>
+                            <a href="/trainer/create_account">
+                                <i class="material-icons">
+                                    person_add
+                                </i>
+                                <span>Create Account</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </li>
 
