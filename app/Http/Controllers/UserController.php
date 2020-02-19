@@ -48,4 +48,26 @@ class UserController extends Controller
 
         return redirect('/trainer/dashboard');
     }
+
+    public function submitImage(Request $request, $id)
+    {
+        if($request->cropedImage != null){
+            $base64 = explode(',', request('cropedImage'))[1];
+            $image = base64_decode($base64);
+            $photo = imagecreatefromstring($image);
+
+            $name=time().$request->first_name.'_'.$request->last_name.'_profile_pic.png';
+            $destinationPath='img/'.$name;
+            imagepng($photo, $destinationPath, 9);
+            $photo='img/'.$name;
+        }
+
+        $user = User::find($id);
+
+        $user->photo = $photo;
+
+        $user->save();
+
+        return back();
+    }
 }

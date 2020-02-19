@@ -46,3 +46,7 @@ Route::get('/trainer/dashboard', ['middleware' => 'trainer', function () {
 Route::get('/back', function (){
     return back();
 });
+
+Route::get('/trainer/evaluation_list', 'EvaluationController@showList')->middleware('trainer');
+
+Route::post('/trainer/{id}/submit_profile', 'UserController@submitImage')->middleware('trainer');

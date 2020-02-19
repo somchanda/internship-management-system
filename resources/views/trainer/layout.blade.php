@@ -12,6 +12,46 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/admin_layout_style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cropper.css') }}">
+    <style>
+        .avatar{
+            width: 5rem;
+            height: 5rem;
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        .avatar img{
+            width: 5rem;
+            height: 5rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+        }
+        .avatar1{
+            width: 5rem;
+            height: 2rem;
+            background-color: black;
+            opacity: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .avatar1:hover{
+            opacity: 0.8;
+        }
+        .avatar1 input{
+            width: 5rem;
+            height: 2rem;
+            position: absolute;
+            bottom: 0;
+            opacity: 0;
+        }
+        .img-container img {
+            max-width: 100%;
+        }
+    </style>
     @yield('stylesheet')
 
 </head>
@@ -33,6 +73,30 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
 }
 
 ?>
+{{--    modal for cropping image--}}
+<div class="modal fade" id="modalCropImage" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Crop the image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="image" src="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="crop">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="wrapper">
     <!-- Sidebar  -->
     <nav class="{{session('side_bar')=='open'?'':'active'}}" id="sidebar">
@@ -40,11 +104,11 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
             <div class="img_profile_container img-wrapper" >
 
                 <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset(Auth::user()->photo) }}" alt="profile picture">
-{{--                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset('img/woman_profile_icon.png') }}" alt="profile picture">--}}
-{{--                <form name="profileForm" action="{{ Auth::user()->id }}/submit_profile" method="post" enctype="multipart/form-data">--}}
-{{--                    @csrf--}}
-{{--                    <input type="file" id="img_user" name="submit_image" style="display:none;">--}}
-{{--                </form>--}}
+                <form name="profileForm" action="/trainer/{{ Auth::user()->id }}/submit_profile" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" id="img_user" name="submit_image" style="display:none;">
+                    <input type="hidden" name="cropedImage" value=""/>
+                </form>
 
                 <a id="camera_icon_container" class="rounded rounded-circle img-overlay" onclick='document.getElementById("img_user").click()'>
 
@@ -219,7 +283,67 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="https://kit.fontawesome.com/8d4428d323.js"></script>
+<script src="{{ asset('js/cropper.js') }}"></script>
 <script type="text/javascript">
+    // for cropting image
+    window.addEventListener('DOMContentLoaded', function () {
+        var avatar = document.getElementById('img_profile');
+        var image = document.getElementById('image');
+        var input = document.getElementById('img_user');
+        var $modal = $('#modalCropImage');
+        var cropper;
+
+        input.addEventListener('change', function (e) {
+            var files = e.target.files;
+            var done = function (url) {
+                input.value = '';
+                image.src = url;
+                $modal.modal('show');
+            };
+            var reader;
+            var file;
+
+            if (files && files.length > 0) {
+                file = files[0];
+
+                if (URL) {
+                    done(URL.createObjectURL(file));
+                } else if (FileReader) {
+                    reader = new FileReader();
+                    reader.onload = function (e) {
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.on('shown.bs.modal', function () {
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 3,
+            });
+        }).on('hidden.bs.modal', function () {
+            cropper.destroy();
+            cropper = null;
+        });
+
+        document.getElementById('crop').addEventListener('click', function () {
+            $modal.modal('hide');
+
+            if (cropper) {
+                canvas = cropper.getCroppedCanvas({
+                    width: 800,
+                    height: 800,
+                });
+                avatar.src = canvas.toDataURL();
+                $('input[name="cropedImage"]').val(avatar.src);
+
+                $('form[name="profileForm"]').submit();
+            }
+        });
+    });
+
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
