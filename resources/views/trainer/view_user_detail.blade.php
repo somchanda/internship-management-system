@@ -107,7 +107,7 @@
                         <img src="{{asset($user->photo)}}" alt=""/>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="profile-head">
                         <h5>
                             {{$user->first_name.' '.$user->last_name}}
@@ -115,79 +115,66 @@
                         <h6>
                             {{$user->type}}
                         </h6>
-                        <p class="proile-rating">Date : <span>{{ $user->created_at }}</span></p>
+{{--                        <p class="proile-rating">Date : <span>{{ $user->created_at }}</span></p>--}}
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-md-2">
-                    <a href="/user"><button class="btn btn-info">Back</button></a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-{{--                        <p>WORK LINK</p>--}}
-{{--                        <a href="">Website Link</a><br/>--}}
-{{--                        <a href="">Bootsnipp Profile</a><br/>--}}
-{{--                        <a href="">Bootply Profile</a>--}}
-{{--                        <p>SKILLS</p>--}}
-{{--                        <a href="">Web Designer</a><br/>--}}
-{{--                        <a href="">Web Developer</a><br/>--}}
-{{--                        <a href="">WordPress</a><br/>--}}
-{{--                        <a href="">WooCommerce</a><br/>--}}
-{{--                        <a href="">PHP, .Net</a><br/>--}}
-                    </div>
-                </div>
-                <div class="col-md-8">
+
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label>First name</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ $user->first_name }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label>Last name</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ $user->last_name }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label>Sex</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ $user->sex }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label>Phone</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ $user->phone }}</p>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label>Email</label>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <p>{{ $user->email }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
+                <div class="col-md-1">
+                    <a href="/user"><button class="btn btn-info">Back</button></a>
+                </div>
+            </div>
             </div>
         @endforeach
     </div>
