@@ -14,7 +14,7 @@ class CreateTraineeInfosTable extends Migration
     public function up()
     {
         Schema::create('trainee_infos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->enum('internship_status',['Doing Internship','Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');
@@ -30,8 +30,12 @@ class CreateTraineeInfosTable extends Migration
             $table->string('reference_position');
             $table->string('reference_phone');
             $table->string('reference_email');
-            $table->bigInteger('user_id');
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

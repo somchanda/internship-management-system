@@ -18,12 +18,6 @@
             background:linear-gradient(-120deg, #ba5112, #ffcd00, #c9c9c9);
         }
 
-        #text_logo {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
     </style>
     @yield('stylesheet')
 </head>

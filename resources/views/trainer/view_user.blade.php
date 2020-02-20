@@ -1,5 +1,7 @@
 @extends('trainer.layout')
 
+@section('section_title', 'Accounts List')
+
 @section('content')
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -59,11 +61,13 @@
                             <a href="/user/edit_user/{{ $admin->id }}" style="float: left;margin-right: 2px">
                                 <button type="submit" class="edit-modal btn btn-info" >Edit</button>
                             </a>
-                            <form onsubmit="return confirm('Are you sur to delete?')" action="/user/delete_user" method="post" style="float: left">
-                                @csrf
-                                <input type="hidden" name="txt_id" id="txt_id" value="{{ $admin->id }}">
-                                <button type="submit" class="delete-modal btn btn-danger">Delete</button>
-                            </form>
+                            @if($admin->id != 1)
+                                <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_user" method="post" style="float: left">
+                                    @csrf
+                                    <input type="hidden" name="txt_id" id="txt_id" value="{{ $admin->id }}">
+                                    <button type="submit" class="delete-modal btn btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -107,7 +111,7 @@
                             <a href="/user/edit_user/{{ $trainer->id }}" style="float: left;margin-right: 2px">
                                 <button type="submit" class="edit-modal btn btn-info" >Edit</button>
                             </a>
-                            <form onsubmit="return confirm('Are you sur to delete?')" action="/user/delete_user" method="post" style="float: left">
+                            <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_user" method="post" style="float: left">
                                 @csrf
                                 <input type="hidden" name="txt_id" id="txt_id" value="{{ $trainer->id }}">
                                 <button type="submit" class="delete-modal btn btn-danger">Delete</button>
@@ -153,7 +157,7 @@
                             <a href="/user/edit_trainee/{{ $trainee->id }}" style="float: left;margin-right: 2px">
                                 <button type="submit" class="edit-modal btn btn-info" >Edit</button>
                             </a>
-                            <form onsubmit="return confirm('Are you sur to delete?')" action="/user/delete_trainee" method="post" style="float: left">
+                            <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_trainee" method="post" style="float: left">
                                 @csrf
                                 <input type="hidden" name="txt_id" id="txt_id" value="{{ $trainee->id }}">
                                 <button type="submit" class="delete-modal btn btn-danger">Delete</button>

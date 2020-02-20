@@ -7,11 +7,13 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use App\Education;
 use App\Language;
 use App\Skill;
 use App\Trainee_info;
 use App\Work_exp;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -53,7 +55,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/trainer/dashboard');
+        return redirect('/user');
     }
 
     public function submitImage(Request $request, $id)
@@ -114,27 +116,37 @@ class UserController extends Controller
     public function deleteUser(Request $request)
     {
         $user = User::find($request->txt_id);
+
+        // delete photo
+        if($user->photo != 'img/man_profile_icon.png' && $user->photo != 'img/woman_profile_icon.png'){
+            if(File::exists(public_path($user->photo))){
+                File::delete(public_path($user->photo));
+            }
+        }
+
         $user->delete();
         return redirect('/user')->with('success', 'Deleted successful');
     }
 
     public function deleteTrainee(Request $request)
     {
-        $id = $request->txt_id;
-        Trainee_info::where('user_id', $id)->delete();
-        User::where('id', $id)->delete();
-        Skill::where('user_id', $id)->delete();
-        Work_exp::where('user_id', $id)->delete();
-        Language::where('user_id', $id)->delete();
-        Education::where('user_id', $id)->delete();
+        $user = User::find($request->txt_id);
 
+        // delete photo
+        if($user->photo != 'img/man_profile_icon.png' && $user->photo != 'img/woman_profile_icon.png'){
+            if(File::exists(public_path($user->photo))){
+                File::delete(public_path($user->photo));
+            }
+        }
+
+        $user->delete();
         return redirect('/user')->with('success', 'Deleted successful');
     }
 
     public function editUser($id)
     {
-        $user = User::all()->where('id', '=', $id);
-        return view('trainer.edit_user')->with('users', $user);
+        $user = User::find($id);
+        return view('trainer.edit_user')->with('user', $user);
     }
 
     public function updateUser(Request $request)
@@ -147,11 +159,30 @@ class UserController extends Controller
             'phone' => 'required',
             'email' => 'required|email',
         ]);
+
+        if (request('cropedImage2') != null) {
+            $base64 = explode(',', request('cropedImage2'))[1];
+            $image = base64_decode($base64);
+            $photo = imagecreatefromstring($image);
+
+            $name = time() . $request->first_name . '_' . $request->last_name . '_profile_pic.png';
+            $destinationPath = 'img/' . $name;
+            imagepng($photo, $destinationPath, 9);
+            $photo = 'img/' . $name;
+        } else {
+            if ($request->sex == 'Female') {
+                $photo = 'img/woman_profile_icon.png';
+            } else {
+                $photo = 'img/man_profile_icon.png';
+            }
+        }
+
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->sex = $request->input('sex');
         $user->phone = $request->input('phone');
         $user->email = $request->input('email');
+        $user->photo = $photo;
         $user->save();
         return redirect('/user')->with('success', 'User updated successful');
     }
