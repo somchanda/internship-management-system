@@ -28,8 +28,8 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        if (request('cropedImage') != null) {
-            $base64 = explode(',', request('cropedImage'))[1];
+        if (request('cropedImage2') != null) {
+            $base64 = explode(',', request('cropedImage2'))[1];
             $image = base64_decode($base64);
             $photo = imagecreatefromstring($image);
 
@@ -97,20 +97,24 @@ class UserController extends Controller
 
     public function showTraineeDetail($id)
     {
-        $trainee = DB::table('users')
-            ->leftJoin('trainee_infos', 'trainee_infos.user_id', '=', 'users.id')
-            ->where('users.id', '=', $id)
-            ->get();
-        $skill = Skill::all()->where('user_id', '=', $id);
-        $work = Work_exp::all()->where('user_id', '=', $id);
-        $education = Education::all()->where('user_id', '=', $id);
-        $language = Language::all()->where('user_id', '=', $id);
+        $trainee = User::find($id);
+
+        $traineeInfo = DB::table('trainee_infos')
+            ->where('user_id', '=', $id)
+            ->first();
+        $skills = Skill::all()->where('user_id', '=', $id);
+        $workExperiences = Work_exp::all()->where('user_id', '=', $id);
+        $educations = Education::all()->where('user_id', '=', $id);
+        $languages = Language::all()->where('user_id', '=', $id);
+
+
         return view('trainer.view_trainee_detail')
-            ->with('trainees', $trainee)
-            ->with('skills', $skill)
-            ->with('works', $work)
-            ->with('educations', $education)
-            ->with('languages', $language);
+            ->with('trainee', $trainee)
+            ->with('traineeInfo', $traineeInfo)
+            ->with('skills', $skills)
+            ->with('workExperiences', $workExperiences)
+            ->with('educations', $educations)
+            ->with('languages', $languages);
     }
 
     public function deleteUser(Request $request)

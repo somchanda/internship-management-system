@@ -99,12 +99,6 @@
     </style>
 @endsection
 @section('content')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/user">User</a></li>
-            <li class="breadcrumb-item active" aria-current="page">View Profile</li>
-        </ol>
-    </nav>
     <div class="container emp-profile">
         @foreach($users as $user)
             <div class="row">
@@ -153,14 +147,6 @@
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>User Id</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ $user->id }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <label>First name</label>
                                 </div>
                                 <div class="col-md-6">
@@ -185,14 +171,6 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>{{ $user->email }}</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
                                     <label>Phone</label>
                                 </div>
                                 <div class="col-md-6">
@@ -201,10 +179,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Type</label>
+                                    <label>Email</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{ $user->type }}</p>
+                                    <p>{{ $user->email }}</p>
                                 </div>
                             </div>
                         </div>

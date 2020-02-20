@@ -53,19 +53,23 @@
                         <td>
                             <a href="user/user_detail/{{ $admin->id }}">
                                 <button class="view-modal btn btn-primary">
-                                    Profile
+                                    <i class="fas fa-address-card"></i>
                                 </button>
                             </a>
                         </td>
                         <td>
                             <a href="/user/edit_user/{{ $admin->id }}" style="float: left;margin-right: 2px">
-                                <button type="submit" class="edit-modal btn btn-info" >Edit</button>
+                                <button type="submit" class="edit-modal btn btn-info" >
+                                    <i class="fas fa-user-edit"></i>
+                                </button>
                             </a>
                             @if($admin->id != 1)
                                 <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_user" method="post" style="float: left">
                                     @csrf
                                     <input type="hidden" name="txt_id" id="txt_id" value="{{ $admin->id }}">
-                                    <button type="submit" class="delete-modal btn btn-danger">Delete</button>
+                                    <button type="submit" class="delete-modal btn btn-danger">
+                                        <i class="fas fa-user-minus"></i>
+                                    </button>
                                 </form>
                             @endif
                         </td>
@@ -103,18 +107,22 @@
                         <td>
                             <a href="user/user_detail/{{ $trainer->id }}">
                                 <button class="view-modal btn btn-primary">
-                                    Profile
+                                    <i class="fas fa-address-card"></i>
                                 </button>
                             </a>
                         </td>
                         <td>
                             <a href="/user/edit_user/{{ $trainer->id }}" style="float: left;margin-right: 2px">
-                                <button type="submit" class="edit-modal btn btn-info" >Edit</button>
+                                <button type="submit" class="edit-modal btn btn-info" >
+                                    <i class="fas fa-user-edit"></i>
+                                </button>
                             </a>
                             <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_user" method="post" style="float: left">
                                 @csrf
                                 <input type="hidden" name="txt_id" id="txt_id" value="{{ $trainer->id }}">
-                                <button type="submit" class="delete-modal btn btn-danger">Delete</button>
+                                <button type="submit" class="delete-modal btn btn-danger">
+                                    <i class="fas fa-user-minus"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -149,18 +157,22 @@
                         <td>
                             <a href="user/trainee_detail/{{ $trainee->id }}">
                                 <button class="view-modal btn btn-primary">
-                                    Profile
+                                    <i class="fas fa-address-card"></i>
                                 </button>
                             </a>
                         </td>
                         <td>
                             <a href="/user/edit_trainee/{{ $trainee->id }}" style="float: left;margin-right: 2px">
-                                <button type="submit" class="edit-modal btn btn-info" >Edit</button>
+                                <button type="submit" class="edit-modal btn btn-info" >
+                                    <i class="fas fa-user-edit"></i>
+                                </button>
                             </a>
                             <form onsubmit="return confirm('Are you sure to delete?')" action="/user/delete_trainee" method="post" style="float: left">
                                 @csrf
                                 <input type="hidden" name="txt_id" id="txt_id" value="{{ $trainee->id }}">
-                                <button type="submit" class="delete-modal btn btn-danger">Delete</button>
+                                <button type="submit" class="delete-modal btn btn-danger">
+                                    <i class="fas fa-user-minus"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>
