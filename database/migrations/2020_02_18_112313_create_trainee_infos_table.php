@@ -15,7 +15,7 @@ class CreateTraineeInfosTable extends Migration
     {
         Schema::create('trainee_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('internship_status',['Intern','Fail','Stop','Continue']);
+            $table->enum('internship_status',['Doing Internship','Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');
             $table->enum('martial_status',['Single','Married']);

@@ -431,12 +431,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                 }
             });
         }
-
-        // $('input[name="submit_image"]').change(function () {
-        //     $('form[name="profileForm"]').submit();
-        // });
-
-
+        
         @yield('script')
     });
 </script>

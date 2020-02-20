@@ -54,3 +54,12 @@ Route::post('/trainer/{id}/submit_profile', 'UserController@submitImage')->middl
 Route::get('/trainer/create_evaluation', ['middleware' => 'trainer'], function (){
 
 });
+
+Route::get('/user','UserController@show');
+Route::get('user/user_detail/{id}','UserController@showUserDetail');
+Route::get('user/trainee_detail/{id}','UserController@showTraineeDetail');
+Route::post('user/delete_user','UserController@deleteUser');
+Route::post('user/delete_trainee','UserController@deleteTrainee');
+Route::get('user/edit_user/{id}','UserController@editUser');
+Route::post('/user/update','UserController@updateUser');
+
