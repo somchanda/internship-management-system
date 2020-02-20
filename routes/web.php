@@ -55,11 +55,14 @@ Route::get('/trainer/create_evaluation', ['middleware' => 'trainer'], function (
 
 });
 
-Route::get('/user','UserController@show');
-Route::get('user/user_detail/{id}','UserController@showUserDetail');
-Route::get('user/trainee_detail/{id}','UserController@showTraineeDetail');
-Route::post('user/delete_user','UserController@deleteUser');
-Route::post('user/delete_trainee','UserController@deleteTrainee');
-Route::get('user/edit_user/{id}','UserController@editUser');
-Route::post('/user/update','UserController@updateUser');
+Route::get('/user','UserController@show')->middleware('trainer');
+Route::get('user/user_detail/{id}','UserController@showUserDetail')->middleware('trainer');
+Route::get('user/trainee_detail/{id}','UserController@showTraineeDetail')->middleware('trainer');
+Route::post('user/delete_user','UserController@deleteUser')->middleware('trainer');
+Route::post('user/delete_trainee','UserController@deleteTrainee')->middleware('trainer');
 
+Route::get('user/edit_user/{id}','UserController@editUser')->middleware('trainer');
+Route::post('/user/update_user','UserController@updateUser')->middleware('trainer');
+
+Route::get('user/edit_trainee/{id}','UserController@editTrainee')->middleware('trainer');
+Route::post('/user/update_trainee','UserController@updateTrainee')->middleware('trainer');

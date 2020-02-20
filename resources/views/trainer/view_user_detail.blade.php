@@ -99,6 +99,12 @@
     </style>
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/user">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Profile</li>
+        </ol>
+    </nav>
     <div class="container emp-profile">
         @foreach($users as $user)
             <div class="row">

@@ -140,7 +140,6 @@ class UserController extends Controller
     public function updateUser(Request $request)
     {
         $user = User::find($request->input('id'));
-
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -157,4 +156,13 @@ class UserController extends Controller
         return redirect('/user')->with('success', 'User updated successful');
     }
 
+    public function editTrainee($id){
+        $user = DB::table('users')
+            ->leftJoin('trainee_infos','trainee_infos.user_id','=','users.id')
+            ->where('users.id','=',$id)->get();
+        $language =  DB::table('users')
+                    ->leftJoin('languages','languages.user_id','=','users.id')
+                    ->where('users.id','=',$id)->get();
+        return view('trainer.edit_trainee')->with('users',$user)->with('languages',$language);
+    }
 }
