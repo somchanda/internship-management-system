@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -91,8 +91,8 @@ class UserController extends Controller
 
     public function showUserDetail($id)
     {
-        $user = User::all()->where('id', '=', $id);
-        return view('trainer.view_user_detail')->with('users', $user);
+        $user = User::find($id);
+        return view('trainer.view_user_detail')->with('user', $user);
     }
 
     public function showTraineeDetail($id)
@@ -199,5 +199,32 @@ class UserController extends Controller
                     ->leftJoin('languages','languages.user_id','=','users.id')
                     ->where('users.id','=',$id)->get();
         return view('trainer.edit_trainee')->with('users',$user)->with('languages',$language);
+    }
+
+    public function viewProfile(){
+        if(Auth::user()->type == 'Admin' || Auth::user()->type == 'Trainer'){
+            $user = Auth::user();
+            return view('trainer.view_user_detail')->with('user', $user);
+        }else{
+            $trainee = Auth::user();
+
+            $traineeInfo = DB::table('trainee_infos')
+                ->where('user_id', '=', $trainee->id)
+                ->first();
+            $skills = Skill::all()->where('user_id', '=', $trainee->id);
+            $workExperiences = Work_exp::all()->where('user_id', '=', $trainee->id);
+            $educations = Education::all()->where('user_id', '=', $trainee->id);
+            $languages = Language::all()->where('user_id', '=', $trainee->id);
+
+
+            return view('trainer.view_trainee_detail')
+                ->with('trainee', $trainee)
+                ->with('traineeInfo', $traineeInfo)
+                ->with('skills', $skills)
+                ->with('workExperiences', $workExperiences)
+                ->with('educations', $educations)
+                ->with('languages', $languages);
+        }
+
     }
 }

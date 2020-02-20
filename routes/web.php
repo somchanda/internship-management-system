@@ -66,3 +66,5 @@ Route::post('/user/update_user','UserController@updateUser')->middleware('traine
 
 Route::get('user/edit_trainee/{id}','UserController@editTrainee')->middleware('trainer');
 Route::post('/user/update_trainee','UserController@updateTrainee')->middleware('trainer');
+
+Route::get('/view_profile', 'UserController@viewProfile')->middleware('auth');
