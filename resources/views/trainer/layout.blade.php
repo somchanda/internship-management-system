@@ -142,7 +142,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                 </a>
                 <ul class="collapse list-unstyled {{ session('sidebar_dropdown_manage_account') === 'open'?'show':'' }}" id="subMenuManageAccount">
                     <li>
-                        <a href="#">
+                        <a href="/user">
                             <i class="material-icons">
                                 format_list_bulleted
                             </i>
@@ -431,7 +431,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                 }
             });
         }
-        
+
         @yield('script')
     });
 </script>
