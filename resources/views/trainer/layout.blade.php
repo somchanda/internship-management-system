@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/admin_layout_style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cropper.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
     <style>
         .avatar{
             width: 5rem;
@@ -166,15 +167,15 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                     <i class="material-icons">
                         insert_chart
                     </i>
-                    Manage Appraisal
+                    Manage Evaluation
                 </a>
                 <ul class="collapse list-unstyled {{ session('sidebar_dropdown_manage_appraisal') === 'open'?'show':'' }}" id="subMenuManageAppraisal">
                     <li>
-                        <a href="#">
+                        <a href="/trainer/evaluation_list">
                             <i class="material-icons">
                                 format_list_bulleted
                             </i>
-                            <span>Appraisal List</span>
+                            <span>Evaluation List</span>
                         </a>
                     </li>
                     <li>
@@ -182,7 +183,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                             <i class="material-icons">
                                 post_add
                             </i>
-                            <span>Make Appraisal</span>
+                            <span>Make Evaluation</span>
                         </a>
                     </li>
                 </ul>
@@ -284,6 +285,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="https://kit.fontawesome.com/8d4428d323.js"></script>
 <script src="{{ asset('js/cropper.js') }}"></script>
+<script type="text/javascript" charset="utf8" src="{{ asset('js/jquery.dataTables.js') }}"></script>
 <script type="text/javascript">
     // for cropting image
     window.addEventListener('DOMContentLoaded', function () {
