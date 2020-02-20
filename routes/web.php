@@ -50,3 +50,7 @@ Route::get('/back', function (){
 Route::get('/trainer/evaluation_list', 'EvaluationController@showList')->middleware('trainer');
 
 Route::post('/trainer/{id}/submit_profile', 'UserController@submitImage')->middleware('trainer');
+
+Route::get('/trainer/create_evaluation', ['middleware' => 'trainer'], function (){
+
+});
