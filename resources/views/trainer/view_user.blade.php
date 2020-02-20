@@ -150,7 +150,9 @@
                             </a>
                         </td>
                         <td>
-                            <button class="edit-modal btn btn-info" style="float: left;margin-right: 2px">Edit</button>
+                            <a href="/user/edit_trainee/{{ $trainee->id }}" style="float: left;margin-right: 2px">
+                                <button type="submit" class="edit-modal btn btn-info" >Edit</button>
+                            </a>
                             <form onsubmit="return confirm('Are you sur to delete?')" action="/user/delete_trainee" method="post" style="float: left">
                                 @csrf
                                 <input type="hidden" name="txt_id" id="txt_id" value="{{ $trainee->id }}">

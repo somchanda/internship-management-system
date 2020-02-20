@@ -139,7 +139,7 @@ if(!session()->has('sidebar_dropdown')){
                 <button type="button" id="sidebarCollapse" class="btn btn-info rounded rounded-circle d-flex align-items-center align-self-center">
                     <i class="fa fa-chevron-{{ session('side_bar') == 'open'?'left':'right' }}"></i>
                 </button>
-                <div style="margin-left: 5px; font-size: 18px;">Mediatheque</div>
+                <div style="margin-left: 5px; font-size: 18px;">Internship Management</div>
             </div>
         </nav>
         <div class="container-fluid">
