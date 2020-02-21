@@ -15,6 +15,8 @@ class CreateTraineeInfosTable extends Migration
     {
         Schema::create('trainee_infos', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('contract_start');
+            $table->date('contract_end');
             $table->enum('internship_status',['Doing Internship','Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');

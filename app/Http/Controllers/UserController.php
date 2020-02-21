@@ -13,7 +13,6 @@ use App\Language;
 use App\Skill;
 use App\Trainee_info;
 use App\Work_exp;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -56,6 +55,33 @@ class UserController extends Controller
         ]);
 
         return redirect('/user');
+    }
+
+    public function viewProfile(){
+        if(Auth::user()->type == 'Admin' || Auth::user()->type == 'Trainer'){
+            $user = Auth::user();
+            return view('trainer.view_user_detail')->with('user', $user);
+        }else{
+            $trainee = Auth::user();
+
+            $traineeInfo = DB::table('trainee_infos')
+                ->where('user_id', '=', $trainee->id)
+                ->first();
+            $skills = Skill::all()->where('user_id', '=', $trainee->id);
+            $workExperiences = Work_exp::all()->where('user_id', '=', $trainee->id);
+            $educations = Education::all()->where('user_id', '=', $trainee->id);
+            $languages = Language::all()->where('user_id', '=', $trainee->id);
+
+
+            return view('trainer.view_trainee_detail')
+                ->with('trainee', $trainee)
+                ->with('traineeInfo', $traineeInfo)
+                ->with('skills', $skills)
+                ->with('workExperiences', $workExperiences)
+                ->with('educations', $educations)
+                ->with('languages', $languages);
+        }
+
     }
 
     public function submitImage(Request $request, $id)
@@ -192,39 +218,35 @@ class UserController extends Controller
     }
 
     public function editTrainee($id){
-        $user = DB::table('users')
-            ->leftJoin('trainee_infos','trainee_infos.user_id','=','users.id')
-            ->where('users.id','=',$id)->get();
-        $language =  DB::table('users')
-                    ->leftJoin('languages','languages.user_id','=','users.id')
-                    ->where('users.id','=',$id)->get();
-        return view('trainer.edit_trainee')->with('users',$user)->with('languages',$language);
+//        $user = DB::table('users')
+//            ->leftJoin('trainee_infos','trainee_infos.user_id','=','users.id')
+//            ->where('users.id','=',$id)->get();
+//        $language =  DB::table('users')
+//                    ->leftJoin('languages','languages.user_id','=','users.id')
+//                    ->where('users.id','=',$id)->get();
+
+        $trainee = User::find($id);
+
+        $traineeInfo = DB::table('trainee_infos')
+            ->where('user_id', '=', $id)
+            ->first();
+        $skills = Skill::all()->where('user_id', '=', $id);
+        $workExperiences = Work_exp::all()->where('user_id', '=', $id);
+        $educations = Education::all()->where('user_id', '=', $id);
+        $languages = Language::all()->where('user_id', '=', $id);
+
+        return view('trainer.edit_trainee')
+            ->with('trainee', $trainee)
+            ->with('traineeInfo', $traineeInfo)
+            ->with('skills', $skills)
+            ->with('workExperiences', $workExperiences)
+            ->with('educations', $educations)
+            ->with('languages', $languages);
     }
 
-    public function viewProfile(){
-        if(Auth::user()->type == 'Admin' || Auth::user()->type == 'Trainer'){
-            $user = Auth::user();
-            return view('trainer.view_user_detail')->with('user', $user);
-        }else{
-            $trainee = Auth::user();
-
-            $traineeInfo = DB::table('trainee_infos')
-                ->where('user_id', '=', $trainee->id)
-                ->first();
-            $skills = Skill::all()->where('user_id', '=', $trainee->id);
-            $workExperiences = Work_exp::all()->where('user_id', '=', $trainee->id);
-            $educations = Education::all()->where('user_id', '=', $trainee->id);
-            $languages = Language::all()->where('user_id', '=', $trainee->id);
-
-
-            return view('trainer.view_trainee_detail')
-                ->with('trainee', $trainee)
-                ->with('traineeInfo', $traineeInfo)
-                ->with('skills', $skills)
-                ->with('workExperiences', $workExperiences)
-                ->with('educations', $educations)
-                ->with('languages', $languages);
-        }
+    public function updateTraineeCvInfo(Request $request){
 
     }
+
+
 }

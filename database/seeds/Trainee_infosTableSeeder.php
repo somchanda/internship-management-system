@@ -13,6 +13,8 @@ class Trainee_infosTableSeeder extends Seeder
     {
         for ($i = 3; $i <= 6; $i++) {
             DB::table('trainee_infos')->insert([
+                'contract_start' => '2020-03-01',
+                'contract_end' => '2020-05-30',
                 'internship_status' => 'Doing Internship',
                 'position' => 'PHP Intern',
                 'address' => 'Phnom Penh',

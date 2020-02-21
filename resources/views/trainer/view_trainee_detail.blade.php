@@ -110,12 +110,14 @@
             <div class="col-md-7">
                 <div class="profile-head">
                     <h5>
+                        <b>
                         {{ $trainee->first_name.' '.$trainee->last_name }}
+                        </b>
                     </h5>
                     <h6>
                         {{$trainee->type}}
                     </h6>
-                    <p class="proile-rating">Date : <span>{{ $trainee->created_at }}</span></p>
+                    <p class="proile-rating">CONTRACT : {{ $traineeInfo->contract_start.' -> '.$traineeInfo->contract_end }}</p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
@@ -265,7 +267,7 @@
                             </div>
                         @endforeach
                         {{--           ----------------------------------------             --}}
-                        {{--   ------------------   educations  ---------------------------------}}
+                        {{--   ------------------   languages  ---------------------------------}}
 
                         <div class="row">
                             <div class="col-5">
