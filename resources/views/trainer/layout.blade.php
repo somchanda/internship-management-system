@@ -179,7 +179,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="/trainer/create_evaluation">
                             <i class="material-icons">
                                 post_add
                             </i>
