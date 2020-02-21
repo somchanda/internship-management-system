@@ -155,7 +155,7 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddSkill">
+                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddSkill" onclick="add_row_input_skills()">
                             <i class="fas fa-plus-circle"></i>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddWorkExperience">
+                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddWorkExperience" onclick="add_row_input_work_exps()">
                             <i class="fas fa-plus-circle"></i>
                         </div>
                     </div>
@@ -247,7 +247,7 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddEducation">
+                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddEducation" onclick="add_row_input_edus()">
                             <i class="fas fa-plus-circle"></i>
                         </div>
                     </div>
@@ -293,7 +293,7 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddLanguage">
+                        <div class="btn btn-outline-primary w-100 text-center" id="buttonAddLanguage" onclick="add_row_input_langs()">
                             <i class="fas fa-plus-circle"></i>
                         </div>
                     </div>
@@ -488,6 +488,83 @@
             });
         });
 
+        function add_row_input_skills(){
+            index = ($('#rowSkills').children()).length + 1;
+
+            $('#rowSkills').append('<div class="row mb-1" id="rowSkill' + index + '">\n' +
+                '                <div class="col-8">\n' +
+                '                <input type="text" name="skill' + index + '" value="" class="form-control" id="skill' + index + '" placeholder="skill">\n' +
+                '                </div>\n' +
+                '                <div class="col-3">\n' +
+                '                <input type="number" min="1" max="10" name="skill_rate' + index + '" value="" class="form-control" id="skill_rate' + index + '" placeholder="rate">\n' +
+                '                </div>\n' +
+                '                <div class="col-1">\n' +
+                '                <div class="btn btn-outline-danger" id="btnRemoveSkill' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowSkills\')">\n' +
+                '                <i class="fas fa-minus-circle"></i>\n' +
+                '                </div>\n' +
+                '                </div>\n' +
+                '                </div>');
+
+            update_hidden_skills();
+        }
+
+        function add_row_input_work_exps() {
+            index = ($('#rowWorkExperiences').children()).length + 1;
+            $('#rowWorkExperiences').append('<div class="row mb-1" id="rowWorkExperience' + index + '">\n' +
+                '                            <div class="col-2">\n' +
+                '                                <input type="text" name="work_experience_date' + index + '" value="" class="form-control text-center" id="work_experience_date' + index + '" placeholder="Date">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-9">\n' +
+                '                                <input type="text" name="work_experience_description' + index + '" value="" class="form-control" id="work_experience_description' + index + '" placeholder="Description">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-1">\n' +
+                '                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowWorkExperiences\')">\n' +
+                '                                    <i class="fas fa-minus-circle"></i>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>');
+
+            update_hidden_work_exps();
+        }
+
+        function add_row_input_edus() {
+            index = ($('#rowEducations').children()).length + 1;
+            $('#rowEducations').append('<div class="row mb-1" id="rowEducation' + index + '">\n' +
+                '                            <div class="col-2">\n' +
+                '                                <input type="text" name="education_date' + index + '" value="" class="form-control text-center" id="education_date' + index + '" placeholder="Date">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-9">\n' +
+                '                                <input type="text" name="education_description' + index + '" value="" class="form-control" id="education_description' + index + '" placeholder="Description">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-1">\n' +
+                '                                <div class="btn btn-outline-danger" id="btnRemoveEducation' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowEducations\')">\n' +
+                '                                    <i class="fas fa-minus-circle"></i>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>');
+
+            update_hidden_edus();
+        }
+
+        function add_row_input_langs() {
+            index = ($('#rowLanguages').children()).length + 1;
+            $('#rowLanguages').append('<div class="row mb-1" id="rowLanguage' + index + '">\n' +
+                '                            <div class="col-2">\n' +
+                '                                <input type="text" name="language' + index + '" value="" class="form-control" id="language' + index + '" placeholder="Language">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-9">\n' +
+                '                                <input type="text" name="language_description' + index + '" value="" class="form-control" id="language_description' + index + '" placeholder="Description">\n' +
+                '                            </div>\n' +
+                '                            <div class="col-1">\n' +
+                '                                <div class="btn btn-outline-danger" id="btnRemoveLanguage' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowLanguages\')">\n' +
+                '                                    <i class="fas fa-minus-circle"></i>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>');
+
+            update_hidden_langs();
+        }
+
         function remove_row_input(row_id, row_parent_id) {
             $(document).find('#' + row_id).remove();
 
@@ -586,15 +663,10 @@
         }
 
         $(document).ready(function () {
-            // add value skills hidden input
-
             update_hidden_skills();
             update_hidden_work_exps();
             update_hidden_edus();
             update_hidden_langs();
-
-
-
         });
     </script>
 @endsection
