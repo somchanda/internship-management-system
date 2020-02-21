@@ -132,7 +132,7 @@
                         $counter = 1;
                     ?>
                 @foreach($skills as $skill)
-                    <div class="row mb-1">
+                    <div class="row mb-1" id="rowSkill{{ $counter }}">
                         <div class="col-8">
                             <input type="text" name="skill{{ $counter }}" value="{{ $skill->skill }}" class="form-control" id="skill{{ $counter }}" placeholder="skill">
                         </div>
@@ -140,7 +140,7 @@
                             <input type="number" min="1" max="10" name="skill_rate{{ $counter }}" value="{{ $skill->rate }}" class="form-control" id="skill_rate{{ $counter }}" placeholder="rate">
                         </div>
                         <div class="col-1">
-                            <div class="btn btn-outline-danger">
+                            <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}">
                                 <i class="fas fa-minus-circle"></i>
                             </div>
                         </div>
@@ -176,15 +176,15 @@
                     $counter = 1;
                     ?>
                     @foreach($workExperiences as $workExp)
-                        <div class="row mb-1">
+                        <div class="row mb-1" id="rowWorkExperience{{ $counter }}">
                             <div class="col-2">
-                                <input type="text" name="work_exp_date{{ $counter }}" value="{{ $workExp->date }}" class="form-control text-center" id="work_exp_date{{ $counter }}" placeholder="Date">
+                                <input type="text" name="work_experience_date{{ $counter }}" value="{{ $workExp->date }}" class="form-control text-center" id="work_experience_date{{ $counter }}" placeholder="Date">
                             </div>
                             <div class="col-9">
-                                <input type="text" name="work_exp_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_exp_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="work_experience_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_experience_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger">
+                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -221,14 +221,14 @@
                     ?>
                     @foreach($educations as $edu)
                         <div class="row mb-1">
-                            <div class="col-2">
-                                <input type="text" name="edu_date{{ $counter }}" value="{{ $edu->date }}" class="form-control text-center" id="edu_date{{ $counter }}" placeholder="Date">
+                            <div class="col-2" id="rowEducation{{ $counter }}">
+                                <input type="text" name="education_date{{ $counter }}" value="{{ $edu->date }}" class="form-control text-center" id="education_date{{ $counter }}" placeholder="Date">
                             </div>
                             <div class="col-9">
-                                <input type="text" name="edu_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="edu_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="education_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="education_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger">
+                                <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -264,15 +264,15 @@
                     $counter = 1;
                     ?>
                     @foreach($languages as $lang)
-                        <div class="row mb-1">
+                        <div class="row mb-1" id="rowLanguage{{ $counter }}">
                             <div class="col-2">
-                                <input type="text" name="lang{{ $counter }}" value="{{ $lang->date }}" class="form-control" id="lang{{ $counter }}" placeholder="Language">
+                                <input type="text" name="language{{ $counter }}" value="{{ $lang->date }}" class="form-control" id="language{{ $counter }}" placeholder="Language">
                             </div>
                             <div class="col-9">
-                                <input type="text" name="lang_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="lang_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="language_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="language_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger">
+                                <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
