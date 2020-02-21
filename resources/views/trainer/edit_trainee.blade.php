@@ -131,6 +131,7 @@
                     <?php
                         $counter = 1;
                     ?>
+                <div id="rowSkills">
                 @foreach($skills as $skill)
                     <div class="row mb-1" id="rowSkill{{ $counter }}">
                         <div class="col-8">
@@ -140,7 +141,7 @@
                             <input type="number" min="1" max="10" name="skill_rate{{ $counter }}" value="{{ $skill->rate }}" class="form-control" id="skill_rate{{ $counter }}" placeholder="rate">
                         </div>
                         <div class="col-1">
-                            <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}">
+                            <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}" onclick="remove_row_input('#rowSkill{{ $counter }}', 'rowSkills')">
                                 <i class="fas fa-minus-circle"></i>
                             </div>
                         </div>
@@ -149,6 +150,7 @@
                         $counter += 1;
                     ?>
                 @endforeach
+                </div>
                 @endif
 
                 <div class="row mb-2">
@@ -175,6 +177,7 @@
                     <?php
                     $counter = 1;
                     ?>
+                    <div id="rowWorkExperiences">
                     @foreach($workExperiences as $workExp)
                         <div class="row mb-1" id="rowWorkExperience{{ $counter }}">
                             <div class="col-2">
@@ -184,7 +187,7 @@
                                 <input type="text" name="work_experience_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_experience_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}">
+                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}" onclick="remove_row_input('#rowWorkExperience{{ $counter }}', 'rowWorkExperiences')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -193,6 +196,7 @@
                         $counter += 1;
                         ?>
                     @endforeach
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -219,16 +223,17 @@
                     <?php
                     $counter = 1;
                     ?>
+                    <div id="rowEducations">
                     @foreach($educations as $edu)
-                        <div class="row mb-1">
-                            <div class="col-2" id="rowEducation{{ $counter }}">
+                        <div class="row mb-1" id="rowEducation{{ $counter }}">
+                            <div class="col-2">
                                 <input type="text" name="education_date{{ $counter }}" value="{{ $edu->date }}" class="form-control text-center" id="education_date{{ $counter }}" placeholder="Date">
                             </div>
                             <div class="col-9">
                                 <input type="text" name="education_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="education_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}">
+                                <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}" onclick="remove_row_input('#rowEducation{{ $counter }}', 'rowEducations')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -237,6 +242,7 @@
                         $counter += 1;
                         ?>
                     @endforeach
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -263,6 +269,7 @@
                     <?php
                     $counter = 1;
                     ?>
+                    <div id="rowLanguages">
                     @foreach($languages as $lang)
                         <div class="row mb-1" id="rowLanguage{{ $counter }}">
                             <div class="col-2">
@@ -272,7 +279,7 @@
                                 <input type="text" name="language_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="language_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}">
+                                <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}" onclick="remove_row_input('#rowLanguage{{ $counter }}', 'rowLanguages')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -281,6 +288,7 @@
                         $counter += 1;
                         ?>
                     @endforeach
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -399,6 +407,15 @@
                 </div>
 
 
+                <input type="hidden" id="skills" name="skills" value="">
+
+                <input type="hidden" id="work_exps" name="work_exps" value="">
+
+                <input type="hidden" id="edus" name="edus" value="">
+
+                <input type="hidden" id="langs" name="langs" value="">
+
+
                 <input type="submit" name="btn_save" value="Save Change" class="btn btn-info">
             </form>
         </div>
@@ -469,6 +486,111 @@
                     $('input[name="cropedImage2"]').val(avatar2.src);
                 }
             });
+        });
+
+        function remove_row_input(row_id, parent_id) {
+
+            console.log(row_id)
+            console.log(parent_id)
+
+            $(document).find(row_id).remove();
+
+            if(parent_id === 'rowSkills'){
+                update_hidden_skills();
+            }else if(parent_id === 'rowWorkExperiences'){
+                update_hidden_work_exps();
+            }else if(parent_id === 'rowEducations'){
+                update_hidden_edus();
+            }else if(parent_id === 'rowLanguages'){
+                update_hidden_langs();
+            }
+        }
+
+        function remove_value_from_hidden_input(input_name, input_value){
+            $('input[name="'+ input_name +'"]')
+        }
+
+        function update_hidden_skills(){
+            skills = $('#rowSkills').children();
+            hidden_input_skills = $('input[name="skills"]');
+
+            skill_ids = "";
+
+            for(i = 0; i < skills.length; i++){
+                if(skill_ids === ''){
+                    skill_ids += skills[i].getAttribute('id');
+                }else{
+                    skill_ids += ',' + skills[i].getAttribute('id');
+                }
+            }
+            hidden_input_skills.val(skill_ids);
+            console.log(hidden_input_skills.val())
+        }
+
+        function update_hidden_work_exps() {
+            work_exps = $('#rowWorkExperiences').children();
+            hidden_input_work_exps = $('input[name="work_exps"]');
+
+            work_exp_ids = "";
+
+            for(i = 0; i < work_exps.length; i++){
+                if(work_exp_ids === ""){
+                    work_exp_ids += work_exps[i].getAttribute('id');
+                }else{
+                    work_exp_ids += "," + work_exps[i].getAttribute('id');
+                }
+            }
+            hidden_input_work_exps.val(work_exp_ids)
+
+            console.log(hidden_input_work_exps.val())
+        }
+
+        function update_hidden_edus() {
+            edus = $('#rowEducations').children();
+            hidden_input_edus = $('input[name="edus"]');
+
+            edu_ids = "";
+
+            for(i = 0; i < edus.length; i++){
+                if(edu_ids === ""){
+                    edu_ids += edus[i].getAttribute('id');
+                }else{
+                    edu_ids += "," + edus[i].getAttribute('id');
+                }
+            }
+            hidden_input_edus.val(edu_ids)
+
+            console.log(hidden_input_edus.val())
+        }
+
+        function update_hidden_langs() {
+            langs = $('#rowLanguages').children();
+            hidden_input_langs = $('input[name="langs"]');
+
+            lang_ids = "";
+
+            for(i = 0; i < langs.length; i++){
+                if(lang_ids === ""){
+                    lang_ids = langs[i].getAttribute('id');
+                }else{
+                    lang_ids += "," + langs[i].getAttribute('id');
+                }
+            }
+            hidden_input_langs.val(lang_ids)
+
+            console.log(hidden_input_langs.val())
+        }
+
+        $(document).ready(function () {
+            // add value skills hidden input
+
+            update_hidden_skills();
+            update_hidden_work_exps();
+            update_hidden_edus();
+            update_hidden_langs();
+
+
+
         });
     </script>
 @endsection
