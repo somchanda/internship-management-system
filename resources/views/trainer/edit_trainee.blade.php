@@ -141,7 +141,7 @@
                             <input type="number" min="1" max="10" name="skill_rate{{ $counter }}" value="{{ $skill->rate }}" class="form-control" id="skill_rate{{ $counter }}" placeholder="rate">
                         </div>
                         <div class="col-1">
-                            <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}" onclick="remove_row_input('#rowSkill{{ $counter }}', 'rowSkills')">
+                            <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowSkills')">
                                 <i class="fas fa-minus-circle"></i>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                                 <input type="text" name="work_experience_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_experience_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}" onclick="remove_row_input('#rowWorkExperience{{ $counter }}', 'rowWorkExperiences')">
+                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowWorkExperiences')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -233,7 +233,7 @@
                                 <input type="text" name="education_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="education_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}" onclick="remove_row_input('#rowEducation{{ $counter }}', 'rowEducations')">
+                                <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowEducations')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -279,7 +279,7 @@
                                 <input type="text" name="language_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="language_description{{ $counter }}" placeholder="Description">
                             </div>
                             <div class="col-1">
-                                <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}" onclick="remove_row_input('#rowLanguage{{ $counter }}', 'rowLanguages')">
+                                <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowLanguages')">
                                     <i class="fas fa-minus-circle"></i>
                                 </div>
                             </div>
@@ -488,26 +488,30 @@
             });
         });
 
-        function remove_row_input(row_id, parent_id) {
+        function remove_row_input(row_id, row_parent_id) {
+            $(document).find('#' + row_id).remove();
 
-            console.log(row_id)
-            console.log(parent_id)
+            // asign new id to children row
+            children_id = row_parent_id.substring(0, row_parent_id.length-1);
 
-            $(document).find(row_id).remove();
+            children = $('#' + row_parent_id).children();
 
-            if(parent_id === 'rowSkills'){
+            if(children.length > 0){
+                for(i = 0; i < children.length; i++){
+                    children[i].setAttribute('id', children_id + (i+1));
+                }
+            }
+
+
+            if(row_parent_id === 'rowSkills'){
                 update_hidden_skills();
-            }else if(parent_id === 'rowWorkExperiences'){
+            }else if(row_parent_id === 'rowWorkExperiences'){
                 update_hidden_work_exps();
-            }else if(parent_id === 'rowEducations'){
+            }else if(row_parent_id === 'rowEducations'){
                 update_hidden_edus();
-            }else if(parent_id === 'rowLanguages'){
+            }else if(row_parent_id === 'rowLanguages'){
                 update_hidden_langs();
             }
-        }
-
-        function remove_value_from_hidden_input(input_name, input_value){
-            $('input[name="'+ input_name +'"]')
         }
 
         function update_hidden_skills(){
