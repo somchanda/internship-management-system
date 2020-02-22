@@ -32,6 +32,8 @@ Route::post('/trainer/create_account', 'UserController@createAccount')->middlewa
 Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
     return view('/trainee.dashboard');
 }]);
+//view trainee profile
+Route::get('/trainee/profile', 'TraineeController@viewProfile')->middleware('trainee');
 
 // view trainer layout
 Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
@@ -81,3 +83,7 @@ Route::post('/user/update_user','UserController@updateUser')->middleware('traine
 
 Route::get('user/edit_trainee/{id}','UserController@editTrainee')->middleware('trainer');
 Route::post('/user/update_trainee','UserController@updateTrainee')->middleware('trainer');
+
+//view trainee evaluation
+Route::get('/trainee/evaluation', 'TraineeController@showEvaluation')->middleware('trainee');
+

@@ -16,44 +16,47 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
     @yield('stylesheet')
     <link rel="stylesheet" href="{{asset('css/trainee_layout.css')}}">
+    <style>
+        #img_profile {
+            width: 40px;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="/trainee/dashboard">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-
-<div class="container">
-    <div class="view-account">
-        <section class="module">
-            <div class="module-inner">
-                <div class="side-bar">
-                    <div class="user-info">
-                        <img class="img-profile img-circle img-responsive center-block" src="{{ asset(Auth::user()->photo) }}" alt="">
-                        <ul class="meta list list-unstyled">
-                            <li class="name">{{ Auth::user()->first_name.' '.Auth::user()->last_name }}
-                                <label class="label label-info">{{ Auth::user()->type }}</label>
-                            </li>
-                        </ul>
-                    </div>
-                    <nav class="side-menu">
-                        <ul class="nav">
-                            <li class="active"><a href="#"><span class="fa fa-user"></span> Profile</a></li>
-                            <li><a href="#"><span class="fa fa-cog"></span> Settings</a></li>
-                            <li><a href="#"><span class="fa fa-credit-card"></span> Billing</a></li>
-                            <li><a href="#"><span class="fa fa-envelope"></span> Messages</a></li>
-
-                            <li><a href="user-drive.html"><span class="fa fa-th"></span> Drive</a></li>
-                            <li><a href="#"><span class="fa fa-clock-o"></span> Reminders</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="content-panel">
-                    <h2 class="title">Profile<span class="pro-label label label-warning">PRO</span></h2>
-                    @yield('content')
-                </div>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/trainee/profile"><i class="fa fa-user"></i> View Profile <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/trainee/evaluation"><i class="material-icons">format_list_bulleted</i> View Evaluations <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="{{ route('logout') }}" method="post">
+            @csrf
+            <div class="form-group">
+                <img class="rounded rounded-circle mx-auto d-block" id="img_profile" src="{{ asset(Auth::user()->photo) }}" alt="profile picture">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="margin-left: 10px" type="submit">Logout</button>
             </div>
-        </section>
-    </div>
-</div>
 
+        </form>
+    </div>
+    </nav>
+
+    <main role="main">
+
+        <div class="container">
+            <hr>
+            @yield('content')
+        </div>
+    </main>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -62,5 +65,6 @@
 <script src="{{ asset('js/cropper.js') }}"></script>
 <script type="text/javascript" charset="utf8" src="{{ asset('js/jquery.dataTables.js') }}"></script>
 <script type="text/javascript"></script>
+@yield('script')
 </body>
 </html>
