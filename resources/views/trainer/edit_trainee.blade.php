@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <label for="internship_status">Internship status</label>
                     <select name="internship_status" class="form-control" id="internship_status">
-                        <option @if($traineeInfo->internship_status == 'Doing Internship') selected @endif value="Interning">Doing Internship</option>
+                        <option @if($traineeInfo->internship_status == 'Doing Internship') selected @endif value="Doing Internship">Doing Internship</option>
                         <option @if($traineeInfo->internship_status == 'Fail') selected @endif value="Fail">Fail</option>
                         <option @if($traineeInfo->internship_status == 'Stop') selected @endif value="Stop">Stop</option>
                         <option @if($traineeInfo->internship_status == 'Continue') selected @endif value="Continue">Continue</option>
@@ -112,7 +112,7 @@
 
                 <div class="form-group">
                     <label for="position">Position</label>
-                    <input type="text" name="position" value="{{$traineeInfo->position}}" class="form-control" id="position" placeholder="position">
+                    <input type="text" name="position" value="{{$traineeInfo->position}}" class="form-control" id="position" placeholder="position" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('position') }}</small>
                     @endif
@@ -135,10 +135,10 @@
                 @foreach($skills as $skill)
                     <div class="row mb-1" id="rowSkill{{ $counter }}">
                         <div class="col-8">
-                            <input type="text" name="skill{{ $counter }}" value="{{ $skill->skill }}" class="form-control" id="skill{{ $counter }}" placeholder="skill">
+                            <input type="text" name="skill{{ $counter }}" value="{{ $skill->skill }}" class="form-control" id="skill{{ $counter }}" placeholder="skill" required>
                         </div>
                         <div class="col-3">
-                            <input type="number" min="1" max="10" name="skill_rate{{ $counter }}" value="{{ $skill->rate }}" class="form-control" id="skill_rate{{ $counter }}" placeholder="rate">
+                            <input type="number" min="1" max="10" name="skill_rate{{ $counter }}" value="{{ $skill->rate }}" class="form-control" id="skill_rate{{ $counter }}" placeholder="rate" required>
                         </div>
                         <div class="col-1">
                             <div class="btn btn-outline-danger" id="btnRemoveSkill{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowSkills')">
@@ -181,10 +181,10 @@
                     @foreach($workExperiences as $workExp)
                         <div class="row mb-1" id="rowWorkExperience{{ $counter }}">
                             <div class="col-2">
-                                <input type="text" name="work_experience_date{{ $counter }}" value="{{ $workExp->date }}" class="form-control text-center" id="work_experience_date{{ $counter }}" placeholder="Date">
+                                <input type="text" name="work_experience_date{{ $counter }}" value="{{ $workExp->date }}" class="form-control text-center" id="work_experience_date{{ $counter }}" placeholder="Date" required>
                             </div>
                             <div class="col-9">
-                                <input type="text" name="work_experience_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_experience_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="work_experience_description{{ $counter }}" value="{{ $workExp->description }}" class="form-control" id="work_experience_description{{ $counter }}" placeholder="Description" required>
                             </div>
                             <div class="col-1">
                                 <div class="btn btn-outline-danger" id="btnRemoveWorkExperience{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowWorkExperiences')">
@@ -227,10 +227,10 @@
                     @foreach($educations as $edu)
                         <div class="row mb-1" id="rowEducation{{ $counter }}">
                             <div class="col-2">
-                                <input type="text" name="education_date{{ $counter }}" value="{{ $edu->date }}" class="form-control text-center" id="education_date{{ $counter }}" placeholder="Date">
+                                <input type="text" name="education_date{{ $counter }}" value="{{ $edu->date }}" class="form-control text-center" id="education_date{{ $counter }}" placeholder="Date" required>
                             </div>
                             <div class="col-9">
-                                <input type="text" name="education_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="education_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="education_description{{ $counter }}" value="{{ $edu->description }}" class="form-control" id="education_description{{ $counter }}" placeholder="Description" required>
                             </div>
                             <div class="col-1">
                                 <div class="btn btn-outline-danger" id="btnRemoveEducation{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowEducations')">
@@ -273,10 +273,10 @@
                     @foreach($languages as $lang)
                         <div class="row mb-1" id="rowLanguage{{ $counter }}">
                             <div class="col-2">
-                                <input type="text" name="language{{ $counter }}" value="{{ $lang->date }}" class="form-control" id="language{{ $counter }}" placeholder="Language">
+                                <input type="text" name="language{{ $counter }}" value="{{ $lang->language }}" class="form-control" id="language{{ $counter }}" placeholder="Language" required>
                             </div>
                             <div class="col-9">
-                                <input type="text" name="language_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="language_description{{ $counter }}" placeholder="Description">
+                                <input type="text" name="language_description{{ $counter }}" value="{{ $lang->description }}" class="form-control" id="language_description{{ $counter }}" placeholder="Description" required>
                             </div>
                             <div class="col-1">
                                 <div class="btn btn-outline-danger" id="btnRemoveLanguage{{ $counter }}" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowLanguages')">
@@ -308,7 +308,7 @@
 
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" name="address" value="{{($traineeInfo->address)}}" class="form-control" id="address" placeholder="Address">
+                    <input type="text" name="address" value="{{($traineeInfo->address)}}" class="form-control" id="address" placeholder="Address" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('address') }}</small>
                     @endif
@@ -316,7 +316,7 @@
 
                 <div class="form-group">
                     <label for="height">Height</label>
-                    <input type="text" name="height" value="{{($traineeInfo->height)}}" class="form-control" id="height" placeholder="Height">
+                    <input type="text" name="height" value="{{($traineeInfo->height)}}" class="form-control" id="height" placeholder="Height" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('height') }}</small>
                     @endif
@@ -324,7 +324,7 @@
 
                 <div class="form-group">
                     <label for="dob">Date of birth</label>
-                    <input type="date" name="dob" value="{{($traineeInfo->dob)}}" class="form-control" id="dob" placeholder="Date of birth">
+                    <input type="date" name="dob" value="{{($traineeInfo->dob)}}" class="form-control" id="dob" placeholder="Date of birth" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('dob') }}</small>
                     @endif
@@ -332,7 +332,7 @@
 
                 <div class="form-group">
                     <label for="place_of_birth">Place of birth</label>
-                    <input type="text" name="place_of_birth" value="{{($traineeInfo->place_of_birth)}}" class="form-control" id="place_of_birth" placeholder="Place of birth">
+                    <input type="text" name="place_of_birth" value="{{($traineeInfo->place_of_birth)}}" class="form-control" id="place_of_birth" placeholder="Place of birth" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('place_of_birth') }}</small>
                     @endif
@@ -340,23 +340,23 @@
 
                 <div class="form-group">
                     <label for="nationality">Nationality</label>
-                    <input type="text" name="nationality" value="{{($traineeInfo->nationality)}}" class="form-control" id="nationality" placeholder="Nationality">
+                    <input type="text" name="nationality" value="{{($traineeInfo->nationality)}}" class="form-control" id="nationality" placeholder="Nationality" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('nationality') }}</small>
                     @endif
                 </div>
 
                 <div class="form-group">
-                    <label for="martial_status">Martial status</label>
-                    <select name="martial_status" class="form-control" id="martial_status">
-                        <option @if($traineeInfo->martial_status == 'Married') selected @endif value="Married">Married</option>
-                        <option @if($traineeInfo->martial_status == 'Single') selected @endif value="Single">Single</option>
+                    <label for="marital_status">Marital status</label>
+                    <select name="marital_status" class="form-control" id="marital_status">
+                        <option @if($traineeInfo->marital_status == 'Married') selected @endif value="Married">Married</option>
+                        <option @if($traineeInfo->marital_status == 'Single') selected @endif value="Single">Single</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="hobbies">Hobbies</label>
-                    <input type="text" name="hobbies" value="{{($traineeInfo->hobbies)}}" class="form-control" id="hobbies" placeholder="Hobbies">
+                    <input type="text" name="hobbies" value="{{($traineeInfo->hobbies)}}" class="form-control" id="hobbies" placeholder="Hobbies" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('hobbies') }}</small>
                     @endif
@@ -376,7 +376,7 @@
 
                 <div class="form-group">
                     <label for="reference_name">Name</label>
-                    <input type="text" name="reference_name" value="{{($traineeInfo->reference_name)}}" class="form-control" id="reference_name" placeholder="Name">
+                    <input type="text" name="reference_name" value="{{($traineeInfo->reference_name)}}" class="form-control" id="reference_name" placeholder="Name" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_name') }}</small>
                     @endif
@@ -384,7 +384,7 @@
 
                 <div class="form-group">
                     <label for="reference_position">Position</label>
-                    <input type="text" name="reference_position" value="{{($traineeInfo->reference_position)}}" class="form-control" id="reference_position" placeholder="Position">
+                    <input type="text" name="reference_position" value="{{($traineeInfo->reference_position)}}" class="form-control" id="reference_position" placeholder="Position" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_position') }}</small>
                     @endif
@@ -392,7 +392,7 @@
 
                 <div class="form-group">
                     <label for="reference_phone">Phone</label>
-                    <input type="text" name="reference_phone" value="{{($traineeInfo->reference_phone)}}" class="form-control" id="reference_phone" placeholder="Phone">
+                    <input type="text" name="reference_phone" value="{{($traineeInfo->reference_phone)}}" class="form-control" id="reference_phone" placeholder="Phone" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_phone') }}</small>
                     @endif
@@ -400,7 +400,7 @@
 
                 <div class="form-group">
                     <label for="reference_email">Email</label>
-                    <input type="text" name="reference_email" value="{{($traineeInfo->reference_email)}}" class="form-control" id="reference_email" placeholder="Email">
+                    <input type="text" name="reference_email" value="{{($traineeInfo->reference_email)}}" class="form-control" id="reference_email" placeholder="Email" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_email') }}</small>
                     @endif
@@ -414,6 +414,10 @@
                 <input type="hidden" id="edus" name="edus" value="">
 
                 <input type="hidden" id="langs" name="langs" value="">
+
+                <input type="hidden" id="id" name="id" value="{{ $traineeInfo->id }}"/>
+
+                <input type="hidden" id="user_id" name="user_id" value="{{ $traineeInfo->user_id }}"/>
 
 
                 <input type="submit" name="btn_save" value="Save Change" class="btn btn-info">
@@ -493,10 +497,10 @@
 
             $('#rowSkills').append('<div class="row mb-1" id="rowSkill' + index + '">\n' +
                 '                <div class="col-8">\n' +
-                '                <input type="text" name="skill' + index + '" value="" class="form-control" id="skill' + index + '" placeholder="skill">\n' +
+                '                <input type="text" name="skill' + index + '" value="" class="form-control" id="skill' + index + '" placeholder="skill" required>\n' +
                 '                </div>\n' +
                 '                <div class="col-3">\n' +
-                '                <input type="number" min="1" max="10" name="skill_rate' + index + '" value="" class="form-control" id="skill_rate' + index + '" placeholder="rate">\n' +
+                '                <input type="number" min="1" max="10" name="skill_rate' + index + '" value="" class="form-control" id="skill_rate' + index + '" placeholder="rate" required>\n' +
                 '                </div>\n' +
                 '                <div class="col-1">\n' +
                 '                <div class="btn btn-outline-danger" id="btnRemoveSkill' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowSkills\')">\n' +
@@ -512,10 +516,10 @@
             index = ($('#rowWorkExperiences').children()).length + 1;
             $('#rowWorkExperiences').append('<div class="row mb-1" id="rowWorkExperience' + index + '">\n' +
                 '                            <div class="col-2">\n' +
-                '                                <input type="text" name="work_experience_date' + index + '" value="" class="form-control text-center" id="work_experience_date' + index + '" placeholder="Date">\n' +
+                '                                <input type="text" name="work_experience_date' + index + '" value="" class="form-control text-center" id="work_experience_date' + index + '" placeholder="Date" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-9">\n' +
-                '                                <input type="text" name="work_experience_description' + index + '" value="" class="form-control" id="work_experience_description' + index + '" placeholder="Description">\n' +
+                '                                <input type="text" name="work_experience_description' + index + '" value="" class="form-control" id="work_experience_description' + index + '" placeholder="Description" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-1">\n' +
                 '                                <div class="btn btn-outline-danger" id="btnRemoveWorkExperience' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowWorkExperiences\')">\n' +
@@ -531,10 +535,10 @@
             index = ($('#rowEducations').children()).length + 1;
             $('#rowEducations').append('<div class="row mb-1" id="rowEducation' + index + '">\n' +
                 '                            <div class="col-2">\n' +
-                '                                <input type="text" name="education_date' + index + '" value="" class="form-control text-center" id="education_date' + index + '" placeholder="Date">\n' +
+                '                                <input type="text" name="education_date' + index + '" value="" class="form-control text-center" id="education_date' + index + '" placeholder="Date" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-9">\n' +
-                '                                <input type="text" name="education_description' + index + '" value="" class="form-control" id="education_description' + index + '" placeholder="Description">\n' +
+                '                                <input type="text" name="education_description' + index + '" value="" class="form-control" id="education_description' + index + '" placeholder="Description" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-1">\n' +
                 '                                <div class="btn btn-outline-danger" id="btnRemoveEducation' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowEducations\')">\n' +
@@ -550,10 +554,10 @@
             index = ($('#rowLanguages').children()).length + 1;
             $('#rowLanguages').append('<div class="row mb-1" id="rowLanguage' + index + '">\n' +
                 '                            <div class="col-2">\n' +
-                '                                <input type="text" name="language' + index + '" value="" class="form-control" id="language' + index + '" placeholder="Language">\n' +
+                '                                <input type="text" name="language' + index + '" value="" class="form-control" id="language' + index + '" placeholder="Language" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-9">\n' +
-                '                                <input type="text" name="language_description' + index + '" value="" class="form-control" id="language_description' + index + '" placeholder="Description">\n' +
+                '                                <input type="text" name="language_description' + index + '" value="" class="form-control" id="language_description' + index + '" placeholder="Description" required>\n' +
                 '                            </div>\n' +
                 '                            <div class="col-1">\n' +
                 '                                <div class="btn btn-outline-danger" id="btnRemoveLanguage' + index + '" onclick="remove_row_input($(this).parent().parent().attr(\'id\'), \'rowLanguages\')">\n' +
@@ -592,74 +596,87 @@
         }
 
         function update_hidden_skills(){
-            skills = $('#rowSkills').children();
-            hidden_input_skills = $('input[name="skills"]');
+            $('input[name="skills"]').val(($('#rowSkills').children()).length);
+            console.log($('input[name="skills"]').val());
 
-            skill_ids = "";
+            // skills = $('input[name="skills"]');
+            // hidden_input_skills = $('input[name="skills"]');
 
-            for(i = 0; i < skills.length; i++){
-                if(skill_ids === ''){
-                    skill_ids += skills[i].getAttribute('id');
-                }else{
-                    skill_ids += ',' + skills[i].getAttribute('id');
-                }
-            }
-            hidden_input_skills.val(skill_ids);
-            console.log(hidden_input_skills.val())
+            // skill_ids = "";
+            //
+            // for(i = 0; i < skills.length; i++){
+            //     if(skill_ids === ''){
+            //         skill_ids += skills[i].getAttribute('id');
+            //     }else{
+            //         skill_ids += ',' + skills[i].getAttribute('id');
+            //     }
+            // }
+            // hidden_input_skills.val(skill_ids);
+            // console.log(hidden_input_skills.val())
         }
 
         function update_hidden_work_exps() {
-            work_exps = $('#rowWorkExperiences').children();
-            hidden_input_work_exps = $('input[name="work_exps"]');
+            $('input[name="work_exps"]').val(($('#rowWorkExperiences').children()).length);
+            console.log($('input[name="work_exps"]').val());
 
-            work_exp_ids = "";
 
-            for(i = 0; i < work_exps.length; i++){
-                if(work_exp_ids === ""){
-                    work_exp_ids += work_exps[i].getAttribute('id');
-                }else{
-                    work_exp_ids += "," + work_exps[i].getAttribute('id');
-                }
-            }
-            hidden_input_work_exps.val(work_exp_ids)
-
-            console.log(hidden_input_work_exps.val())
+            // work_exps = $('#rowWorkExperiences').children();
+            // hidden_input_work_exps = $('input[name="work_exps"]');
+            //
+            // work_exp_ids = "";
+            //
+            // for(i = 0; i < work_exps.length; i++){
+            //     if(work_exp_ids === ""){
+            //         work_exp_ids += work_exps[i].getAttribute('id');
+            //     }else{
+            //         work_exp_ids += "," + work_exps[i].getAttribute('id');
+            //     }
+            // }
+            // hidden_input_work_exps.val(work_exp_ids)
+            //
+            // console.log(hidden_input_work_exps.val())
         }
 
         function update_hidden_edus() {
-            edus = $('#rowEducations').children();
-            hidden_input_edus = $('input[name="edus"]');
+            $('input[name="edus"]').val(($('#rowEducations').children()).length);
+            console.log($('input[name="edus"]').val());
 
-            edu_ids = "";
-
-            for(i = 0; i < edus.length; i++){
-                if(edu_ids === ""){
-                    edu_ids += edus[i].getAttribute('id');
-                }else{
-                    edu_ids += "," + edus[i].getAttribute('id');
-                }
-            }
-            hidden_input_edus.val(edu_ids)
-
-            console.log(hidden_input_edus.val())
+            // edus = $('#rowEducations').children();
+            // hidden_input_edus = $('input[name="edus"]');
+            //
+            // edu_ids = "";
+            //
+            // for(i = 0; i < edus.length; i++){
+            //     if(edu_ids === ""){
+            //         edu_ids += edus[i].getAttribute('id');
+            //     }else{
+            //         edu_ids += "," + edus[i].getAttribute('id');
+            //     }
+            // }
+            // hidden_input_edus.val(edu_ids)
+            //
+            // console.log(hidden_input_edus.val())
         }
 
         function update_hidden_langs() {
-            langs = $('#rowLanguages').children();
-            hidden_input_langs = $('input[name="langs"]');
+            $('input[name="langs"]').val(($('#rowLanguages').children()).length);
+            console.log($('input[name="langs"]').val());
 
-            lang_ids = "";
-
-            for(i = 0; i < langs.length; i++){
-                if(lang_ids === ""){
-                    lang_ids = langs[i].getAttribute('id');
-                }else{
-                    lang_ids += "," + langs[i].getAttribute('id');
-                }
-            }
-            hidden_input_langs.val(lang_ids)
-
-            console.log(hidden_input_langs.val())
+            // langs = $('#rowLanguages').children();
+            // hidden_input_langs = $('input[name="langs"]');
+            //
+            // lang_ids = "";
+            //
+            // for(i = 0; i < langs.length; i++){
+            //     if(lang_ids === ""){
+            //         lang_ids = langs[i].getAttribute('id');
+            //     }else{
+            //         lang_ids += "," + langs[i].getAttribute('id');
+            //     }
+            // }
+            // hidden_input_langs.val(lang_ids)
+            //
+            // console.log(hidden_input_langs.val())
         }
 
         $(document).ready(function () {

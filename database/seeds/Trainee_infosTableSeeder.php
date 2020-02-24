@@ -18,7 +18,7 @@ class Trainee_infosTableSeeder extends Seeder
                 'internship_status' => 'Doing Internship',
                 'position' => 'PHP Intern',
                 'address' => 'Phnom Penh',
-                'martial_status' => 'Single',
+                'marital_status' => 'Single',
                 'height' => 1.67,
                 'nationality' => 'Khmer',
                 'dob' => '1999-02-20',

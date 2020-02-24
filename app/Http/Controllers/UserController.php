@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dotenv\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\Language;
 use App\Skill;
 use App\Trainee_info;
 use App\Work_exp;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -245,6 +247,104 @@ class UserController extends Controller
     }
 
     public function updateTraineeCvInfo(Request $request){
+        $request->validate([
+            'internship_status' => 'required', Rule::in(['Doing Internship', 'Fail', 'Continue', 'Stop']),
+            'position' => 'required',
+            'address' => 'required',
+            'height' => 'required|numeric',
+            'dob' => 'required|date',
+            'place_of_birth' => 'required',
+            'nationality' => 'required',
+            'marital_status' => 'required',
+            'hobbies' => 'required',
+            'reference_name' => 'required',
+            'reference_position' => 'required',
+            'reference_phone' => 'required',
+            'reference_email' => 'required',
+        ]);
+
+        $traineeInfo = Trainee_info::find($request->id);
+        $traineeInfo->internship_status = $request->internship_status;
+        $traineeInfo->position = $request->position;
+        $traineeInfo->address = $request->address;
+        $traineeInfo->height = $request->height;
+        $traineeInfo->dob = $request->dob;
+        $traineeInfo->place_of_birth = $request->place_of_birth;
+        $traineeInfo->nationality = $request->nationality;
+        $traineeInfo->marital_status = $request->marital_status;
+        $traineeInfo->hobbies = $request->hobbies;
+        $traineeInfo->reference_name = $request->reference_name;
+        $traineeInfo->reference_position = $request->reference_position;
+        $traineeInfo->reference_phone = $request->reference_phone;
+        $traineeInfo->reference_email = $request->reference_email;
+        $traineeInfo->save();
+
+        $skill = Skill::all()->where('user_id', '=', $request->user_id);
+        if(sizeof($skill) > 0){
+            foreach ($skill as $s) {
+                Skill::destroy($s->id);
+            }
+        }
+
+        $workExp = Work_exp::all()->where('user_id', '=', $request->user_id);
+        if(sizeof($workExp) > 0){
+            foreach ($workExp as $w) {
+                Work_exp::destroy($w->id);
+            }
+        }
+
+        $education = Education::all()->where('user_id', '=', $request->user_id);
+        if(sizeof($education) > 0){
+            foreach ($education as $e) {
+                Education::destroy($e->id);
+            }
+        }
+
+        $language = Language::all()->where('user_id', '=', $request->user_id);
+        if(sizeof($language) > 0){
+            foreach ($language as $l) {
+                Language::destroy($l->id);
+            }
+        }
+
+
+        $numberOfSkillInput = intval($request->skills);
+        for($i = 1; $i <= $numberOfSkillInput; $i++){
+            DB::table('skills')->insert([
+                'skill' => $request->get('skill'.$i),
+                'rate' => $request->get('skill_rate'.$i),
+                'user_id' => $request->user_id
+            ]);
+        }
+
+        $numberOfWorkExperienceInput = intval($request->work_exps);
+        for ($i = 1; $i <= $numberOfWorkExperienceInput; $i++){
+            DB::table('work_exps')->insert([
+                'date' => $request->get('work_experience_date'.$i),
+                'description' => $request->get('work_experience_description'.$i),
+                'user_id' => $request->user_id
+            ]);
+        }
+
+        $numberOfEducationInput = intval($request->edus);
+        for($i = 1; $i <= $numberOfEducationInput; $i++){
+            DB::table('education')->insert([
+                'date' => $request->get('education_date'.$i),
+                'description' => $request->get('education_description'.$i),
+                'user_id' => $request->user_id
+            ]);
+        }
+
+        $numberOfLanguageInput = intval($request->langs);
+        for($i = 1; $i <= $numberOfLanguageInput; $i++){
+            DB::table('languages')->insert([
+                'language' => $request->get('language'.$i),
+                'description' => $request->get('language_description'.$i),
+                'user_id' => $request->user_id
+            ]);
+        }
+
+        return redirect('user/trainee_detail/'.$request->user_id);
 
     }
 

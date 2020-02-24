@@ -204,6 +204,7 @@
                             </div>
                         </div>
 
+                        @if($skills != null)
                         @foreach($skills as $skill)
                             <div class="row">
                                 <div class="col-md-4">
@@ -216,6 +217,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        @endif
                         {{--           ----------------------------------------             --}
                         {{--   ------------------   work experience ---------------------------------}}
 
@@ -231,6 +233,7 @@
                             </div>
                         </div>
 
+                        @if($workExperiences != null)
                         @foreach($workExperiences as $workExperience)
                             <div class="row">
                                 <div class="col-md-4">
@@ -241,6 +244,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        @endif
                         {{--           ----------------------------------------             --}}
                         {{--   ------------------   educations  ---------------------------------}}
 
@@ -255,7 +259,7 @@
                                 <hr class="w-100">
                             </div>
                         </div>
-
+                        @if($educations != null)
                         @foreach($educations as $education)
                             <div class="row">
                                 <div class="col-md-4">
@@ -266,6 +270,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        @endif
                         {{--           ----------------------------------------             --}}
                         {{--   ------------------   languages  ---------------------------------}}
 
@@ -280,7 +285,7 @@
                                 <hr class="w-100">
                             </div>
                         </div>
-
+                        @if($languages != null)
                         @foreach($languages as $language)
                             <div class="row">
                                 <div class="col-md-4">
@@ -291,6 +296,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        @endif
                         <div class="row">
                             <div class="col-12">
                                 <hr class="w-100">
@@ -343,7 +349,7 @@
                                 <label>Martial status</label>
                             </div>
                             <div class="col-md-8">
-                                <p>{{ $traineeInfo->martial_status }}</p>
+                                <p>{{ $traineeInfo->marital_status }}</p>
                             </div>
                         </div>
                         <div class="row">

@@ -20,7 +20,7 @@ class CreateTraineeInfosTable extends Migration
             $table->enum('internship_status',['Doing Internship','Fail','Stop','Continue']);
             $table->string('position');
             $table->string('address');
-            $table->enum('martial_status',['Single','Married']);
+            $table->enum('marital_status',['Single','Married']);
             $table->float('height');
             $table->string('nationality');
             $table->date('dob');

@@ -3,6 +3,12 @@
 @section('section_title', 'Accounts List')
 
 @section('content')
+    <?php
+    if(!session()->has('tab')){
+        session(['tab'=>'trainee']);
+    }
+    ?>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -14,19 +20,19 @@
 {{--    Nav tap--}}
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="true">Admin</a>
+            <a class="nav-link {{session('tab')=='admin'?'active':''}}" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="true">Admin</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#trainer" role="tab" aria-controls="trainer" aria-selected="false">Trainer</a>
+            <a class="nav-link {{session('tab')=='trainer'?'active':''}}" id="profile-tab" data-toggle="tab" href="#trainer" role="tab" aria-controls="trainer" aria-selected="false">Trainer</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="trainee-tab" data-toggle="tab" href="#trainee" role="tab" aria-controls="trainee" aria-selected="false">Trainee</a>
+            <a class="nav-link {{session('tab')=='trainee'?'active':''}}" id="trainee-tab" data-toggle="tab" href="#trainee" role="tab" aria-controls="trainee" aria-selected="false">Trainee</a>
         </li>
     </ul>
 
     <div class="tab-content" id="myTabContent">
 {{--        Admin table--}}
-        <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+        <div class="tab-pane fade {{session('tab')=='admin'?'show active':''}}" id="admin" role="tabpanel" aria-labelledby="admin-tab">
             <h1>Admin</h1>
             <table class="table" id="table_admin">
                 <thead>
@@ -80,7 +86,7 @@
         </div>
 
 {{--        Trainer table--}}
-        <div class="tab-pane fade" id="trainer" role="tabpanel" aria-labelledby="trainer-tab">
+        <div class="tab-pane fade {{session('tab')=='trainer'?'show active':''}}" id="trainer" role="tabpanel" aria-labelledby="trainer-tab">
             <h1>Trainer</h1>
             <table class="table table-bordered" id="table_trainer">
                 <thead>
@@ -130,7 +136,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="trainee" role="tabpanel" aria-labelledby="trainee-tab">
+        <div class="tab-pane fade {{session('tab')=='trainee'?'show active':''}}" id="trainee" role="tabpanel" aria-labelledby="trainee-tab">
             <h1>Trainee</h1>
             <table class="table" id="table_trainee">
                 <thead>
@@ -187,6 +193,11 @@
 @section('javascript')
     <script>
         $(document).ready( function () {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                // console.log(e.target.getAttribute('aria-controls'))
+                update_session('tab', '' + e.target.getAttribute('aria-controls'))
+            });
+
             $('#table_admin').DataTable();
             $('#table_trainee').DataTable();
             $('#table_trainer').DataTable();
@@ -201,6 +212,30 @@
                 {{--}); --}}
             });
         });
+
+        function update_session(session_name, session_value){
+            console.log("session name : " + session_name)
+            console.log("session value : " + session_value)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/update_session',
+                type: 'post',
+                data: {
+                    session_name:session_name,
+                    session_value:session_value,
+                },
+                success:function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('error retrieving data')
+                }
+            });
+        }
     </script>
 @endsection
 
