@@ -3,7 +3,8 @@
     <br>
     <br>
     <br>
-    <table class="table table-striped table-bordered" id="table">
+    <p>Trainee Name: <strong>{{ Auth::user()->last_name .' '.Auth::user()->first_name }}</strong></p>
+    <table class="display dataTable no-footer" id="table">
         <thead>
             <tr>
                 <th>Skills</th>
@@ -20,16 +21,11 @@
                 <td>{{$evaluation->logical_thinking}}</td>
                 <td>{{$evaluation->attitudes}}</td>
                 <td>{{$evaluation->period}}</td>
-                <td>@if($evaluation->created_at != null) {{$evaluation->created_at->format('d/M/Y') }} @endif</td>
+                <td>@if($evaluation->created_at != null) {{date('d/M/Y', strtotime($evaluation->created_at))}} @endif</td>
             </tr>
         @endforeach
         </tbody>
     </table>
-
-    logical thinking 35%
-    skill 35%
-    attitudes 35%
-
 @endsection
 @section('script')
     <script>

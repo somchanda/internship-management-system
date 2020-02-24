@@ -273,7 +273,6 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                     </div>
                 </div>
             </div>
-
             @yield('content')
         </div>
     </div>
