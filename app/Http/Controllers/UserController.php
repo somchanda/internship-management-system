@@ -216,7 +216,12 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->photo = $photo;
         $user->save();
-        return redirect('/user')->with('success', 'User updated successful');
+
+        if($user->type == 'Trainee'){
+            session(['trainee_detail_tab' => 'about']);
+        }
+//        return redirect('/user')->with('success', 'User updated successful');
+        return redirect('user/trainee_detail/'.$user->id);
     }
 
     public function editTrainee($id){
@@ -343,6 +348,8 @@ class UserController extends Controller
                 'user_id' => $request->user_id
             ]);
         }
+
+        session(['trainee_detail_tab' => 'more']);
 
         return redirect('user/trainee_detail/'.$request->user_id);
 
