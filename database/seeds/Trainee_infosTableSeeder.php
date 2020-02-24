@@ -11,13 +11,18 @@ class Trainee_infosTableSeeder extends Seeder
      */
     public function run()
     {
+        $position = array('PHP Intern', 'Java Intern');
+        $start_date = array('2020-02-01', '2020-01-01', '2020-03-01');
+        $end_date = array('2020-04-30', '2020-03-31', '2020-05-31');
 
         for ($i = 3; $i <= 6; $i++) {
+            $index = rand(0, 2);
+
             DB::table('trainee_infos')->insert([
-                'contract_start' => '2020-03-01',
-                'contract_end' => '2020-05-30',
+                'contract_start' => $start_date[$index],
+                'contract_end' => $end_date[$index],
                 'internship_status' => 'Doing Internship',
-                'position' => 'PHP Intern',
+                'position' => $position[array_rand($position, 1)],
                 'address' => 'Phnom Penh',
                 'marital_status' => 'Single',
                 'height' => 1.67,
@@ -25,8 +30,6 @@ class Trainee_infosTableSeeder extends Seeder
                 'dob' => '1999-02-20',
                 'hobbies' => 'Love coding',
                 'place_of_birth' => 'Siem Reap',
-                'start_date' => '2020-02-03',
-                'end_date' => '2020-04-03',
                 'reference_name' => 'Dara',
                 'reference_position' => 'Sale',
                 'reference_phone' => '093737373',

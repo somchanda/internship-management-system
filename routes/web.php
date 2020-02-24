@@ -28,10 +28,7 @@ Route::post('/trainer/create_account', 'UserController@createAccount')->middlewa
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-// view trainee dashboard
-Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
-    return view('/trainee.dashboard');
-}]);
+
 //view trainee profile
 Route::get('/trainee/profile', 'TraineeController@viewProfile')->middleware('trainee');
 
@@ -46,9 +43,7 @@ Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
 }]);
 
 // view trainer or admin dashboard
-Route::get('/trainer/dashboard', ['middleware' => 'trainer', function () {
-    return view('trainer.dashboard');
-}]);
+Route::get('/trainer/dashboard', 'UserController@showDashboard')->middleware('trainer');
 
 Route::get('/back', function (){
     return back();

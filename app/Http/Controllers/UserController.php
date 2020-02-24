@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Evaluation;
+use Carbon\Carbon;
 use Dotenv\Validator;
 use App\User;
 use Illuminate\Http\Request;
@@ -355,5 +357,233 @@ class UserController extends Controller
 
     }
 
+    public function showDashboard(){
+        $totalTrainee = sizeof(User::all()->where('type', '=', 'Trainee'));
+        $technology = DB::table('trainee_infos')->select(['position'])->distinct()->get();
+        $traineeEachTechnology = array();
 
+        foreach ($technology as $t) {
+            $numberOfPeople = sizeof(DB::table('trainee_infos')->where('position', '=', $t->position)->get());
+            array_push($traineeEachTechnology, array($t->position => $numberOfPeople));
+        }
+
+
+
+        $firstEvaluationGradeA = 0;
+        $firstEvaluationGradeB = 0;
+        $firstEvaluationGradeC = 0;
+
+        $midtermEvaluationGradeA = 0;
+        $midtermEvaluationGradeB = 0;
+        $midtermEvaluationGradeC = 0;
+
+        $finalEvaluationGradeA = 0;
+        $finalEvaluationGradeB = 0;
+        $finalEvaluationGradeC = 0;
+
+        $firstEvaluationIsExist = false;
+        $midtermEvaluationIsExist = false;
+        $finalEvaluationIsExist = false;
+
+        // check if first evaluation is exist
+        $firstEvaluation = Evaluation::all()->where('period', '=', 'First Evaluation');
+        if($firstEvaluation != null){
+            $firstEvaluationIsExist = true;
+            foreach ($firstEvaluation as $evaluation){
+                $logicalThinkingScore = $evaluation->logical_thinking;
+                if($logicalThinkingScore == 'A'){
+                    $logicalThinkingScore = 100;
+                }else if($logicalThinkingScore == 'B'){
+                    $logicalThinkingScore = 75;
+                }else{
+                    $logicalThinkingScore = 50;
+                }
+                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
+
+                $skillScore = $evaluation->skills;
+                if($skillScore == 'A'){
+                    $skillScore = 100;
+                }else if($skillScore == 'B'){
+                    $skillScore = 75;
+                }else{
+                    $skillScore = 50;
+                }
+                $skillScore = ($skillScore * 35) / 100;
+
+                $attitudeScore = $evaluation->attitudes;
+                if($attitudeScore == 'A'){
+                    $attitudeScore = 100;
+                }else if($attitudeScore == 'B'){
+                    $attitudeScore = 75;
+                }else{
+                    $attitudeScore = 50;
+                }
+                $attitudeScore = ($attitudeScore * 30) / 100;
+
+                $totalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
+
+                if($totalScore >= 75){
+                    $totalScore = 'A';
+                    $firstEvaluationGradeA += 1;
+                }else if($totalScore >= 50 && $totalScore < 75){
+                    $totalScore = 'B';
+                    $firstEvaluationGradeB += 1;
+                }else if($totalScore < 50){
+                    $totalScore = 'C';
+                    $firstEvaluationGradeC += 1;
+                }
+            }
+        }
+
+        // check if midterm evaluation is exist
+        $midtermEvaluation = Evaluation::all()->where('period', '=', 'Midterm Evaluation');
+        if($midtermEvaluation != null){
+            $midtermEvaluationIsExist = true;
+            foreach ($midtermEvaluation as $evaluation){
+                $logicalThinkingScore = $evaluation->logical_thinking;
+                if($logicalThinkingScore == 'A'){
+                    $logicalThinkingScore = 100;
+                }else if($logicalThinkingScore == 'B'){
+                    $logicalThinkingScore = 75;
+                }else{
+                    $logicalThinkingScore = 50;
+                }
+                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
+
+                $skillScore = $evaluation->skills;
+                if($skillScore == 'A'){
+                    $skillScore = 100;
+                }else if($skillScore == 'B'){
+                    $skillScore = 75;
+                }else{
+                    $skillScore = 50;
+                }
+                $skillScore = ($skillScore * 35) / 100;
+
+                $attitudeScore = $evaluation->attitudes;
+                if($attitudeScore == 'A'){
+                    $attitudeScore = 100;
+                }else if($attitudeScore == 'B'){
+                    $attitudeScore = 75;
+                }else{
+                    $attitudeScore = 50;
+                }
+                $attitudeScore = ($attitudeScore * 30) / 100;
+
+                $totalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
+
+                if($totalScore >= 75){
+                    $totalScore = 'A';
+                    $midtermEvaluationGradeA += 1;
+                }else if($totalScore >= 50 && $totalScore < 75){
+                    $totalScore = 'B';
+                    $midtermEvaluationGradeB += 1;
+                }else if($totalScore < 50){
+                    $totalScore = 'C';
+                    $midtermEvaluationGradeC += 1;
+                }
+            }
+        }
+
+        // check if final evaluation is exist
+        $finalEvaluation = Evaluation::all()->where('period', '=', 'Final Evaluation');
+        if($finalEvaluation != null){
+            $finalEvaluationIsExist = true;
+            foreach ($finalEvaluation as $evaluation){
+                $logicalThinkingScore = $evaluation->logical_thinking;
+                if($logicalThinkingScore == 'A'){
+                    $logicalThinkingScore = 100;
+                }else if($logicalThinkingScore == 'B'){
+                    $logicalThinkingScore = 75;
+                }else{
+                    $logicalThinkingScore = 50;
+                }
+                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
+
+                $skillScore = $evaluation->skills;
+                if($skillScore == 'A'){
+                    $skillScore = 100;
+                }else if($skillScore == 'B'){
+                    $skillScore = 75;
+                }else{
+                    $skillScore = 50;
+                }
+                $skillScore = ($skillScore * 35) / 100;
+
+                $attitudeScore = $evaluation->attitudes;
+                if($attitudeScore == 'A'){
+                    $attitudeScore = 100;
+                }else if($attitudeScore == 'B'){
+                    $attitudeScore = 75;
+                }else{
+                    $attitudeScore = 50;
+                }
+                $attitudeScore = ($attitudeScore * 30) / 100;
+
+                $totalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
+
+                if($totalScore >= 75){
+                    $totalScore = 'A';
+                    $finalEvaluationGradeA += 1;
+                }else if($totalScore >= 50 && $totalScore < 75){
+                    $totalScore = 'B';
+                    $finalEvaluationGradeB += 1;
+                }else if($totalScore < 50){
+                    $totalScore = 'C';
+                    $finalEvaluationGradeB += 1;
+                }
+            }
+        }
+
+
+        $numberOfTraineePerMonth = array();
+        $currentYear = Carbon::now()->year;
+        $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
+        $distinctMonths = array();
+
+        foreach ($months as $month) {
+            if(in_array($month->month, $distinctMonths)){
+                continue;
+            }else{
+                array_push($distinctMonths, $month->month);
+            }
+        }
+
+        $numberOfTraineePerMonth = array();
+        foreach ($distinctMonths as $month){
+            $start_month = DB::table('trainee_infos')
+                ->selectRaw('month(contract_start) as month')
+                ->whereYear('contract_start', '=', $currentYear)
+                ->whereMonth('contract_start', '<=', $month)
+                ->get()->count();
+
+            array_push($numberOfTraineePerMonth, array($this->numericMonthToText($month).'-'.$currentYear => $start_month));
+        }
+        return $numberOfTraineePerMonth;
+
+
+        return json_encode([
+            'total trainee' => $totalTrainee,
+            'trainee each tech' => $traineeEachTechnology,
+            'first exist' => $firstEvaluationIsExist,
+            'mid exist' => $midtermEvaluationIsExist,
+            'final exist' => $finalEvaluationIsExist,
+            'first g a' => $firstEvaluationGradeA,
+            'first g b' => $firstEvaluationGradeB,
+            'first g c' => $firstEvaluationGradeC,
+            'mid g a' => $midtermEvaluationGradeA,
+            'mid g b' => $midtermEvaluationGradeB,
+            'mid g c' => $midtermEvaluationGradeC,
+            'final g a' => $finalEvaluationGradeA,
+            'final g b' => $finalEvaluationGradeB,
+            'final g c' => $finalEvaluationGradeC]);
+
+
+        return view('trainer.dashboard');
+    }
+
+    public function numericMonthToText($month){
+        $months = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+        return $months[$month];
+    }
 }

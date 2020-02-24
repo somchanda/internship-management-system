@@ -26,8 +26,6 @@ class CreateTraineeInfosTable extends Migration
             $table->date('dob');
             $table->string('hobbies')->nullable();
             $table->string('place_of_birth');
-            $table->date('start_date');
-            $table->date('end_date');
             $table->string('reference_name');
             $table->string('reference_position');
             $table->string('reference_phone');
