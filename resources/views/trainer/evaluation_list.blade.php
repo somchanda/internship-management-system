@@ -8,6 +8,12 @@
 
 
 @section('content')
+    <?php
+    if(!session()->has('tab')){
+        session(['tab'=>'trainee']);
+    }
+    ?>
+
     <div class="container-fluid">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -346,7 +346,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Martial status</label>
+                                <label>Marital status</label>
                             </div>
                             <div class="col-md-8">
                                 <p>{{ $traineeInfo->marital_status }}</p>
