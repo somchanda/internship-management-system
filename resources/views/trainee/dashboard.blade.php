@@ -1,19 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    Trainee dashboard
-    <a href="{{ route('logout') }}"  onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();">Logout</a>
+@extends('trainee.layout')
+@section('content')
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container" >
+            <h1 class="display-3">Welcome <strong>{{ Auth::user()->first_name.' '.Auth::user()->last_name }}</strong></h1>
+            <p><a class="btn btn-primary btn-lg" href="/trainee/profile" role="button">View Profile&raquo;</a></p>
+        </div>
+    </div>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-        @csrf
-    </form>
-</body>
-</html>
+
+
+@endsection

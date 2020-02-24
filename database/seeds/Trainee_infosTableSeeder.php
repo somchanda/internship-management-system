@@ -11,6 +11,7 @@ class Trainee_infosTableSeeder extends Seeder
      */
     public function run()
     {
+
         for ($i = 3; $i <= 6; $i++) {
             DB::table('trainee_infos')->insert([
                 'contract_start' => '2020-03-01',

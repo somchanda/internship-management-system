@@ -32,6 +32,13 @@ Route::post('/trainer/create_account', 'UserController@createAccount')->middlewa
 Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
     return view('/trainee.dashboard');
 }]);
+//view trainee profile
+Route::get('/trainee/profile', 'TraineeController@viewProfile')->middleware('trainee');
+
+//view trainer and admin profile
+Route::get('/trainer/profile', ['middleware' => 'trainer', function(){
+    return view('/trainer.view_profile');
+}]);
 
 // view trainer layout
 Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
@@ -48,12 +55,27 @@ Route::get('/back', function (){
 });
 
 Route::get('/trainer/evaluation_list', 'EvaluationController@showList')->middleware('trainer');
+//fill the trainee select
+Route::get('/trainer/create_evaluation/fillTraineeSelect', 'EvaluationController@fillTraineeSelect')->middleware('trainer');
+//fill the period select
+Route::post('/trainer/create_evaluation/fillPeriodSelect', 'EvaluationController@fillPeriodSelect')->middleware('trainer');
+//save evaluation
+Route::post('/trainer/evaluation/save', 'EvaluationController@saveEvaluation')->middleware('trainer');
+
+//pop up data to madal
+Route::post('/trainer/evaluation/edit', 'EvaluationController@editEvaluation')->middleware('trainer');
+
+//Update evaluation
+Route::post('/trainer/evaluation/update', 'EvaluationController@updateEvaluation')->middleware('trainer');
+//delete evaluation
+Route::post('/trainer/evaluation/delete', 'EvaluationController@deleteEvaluation')->middleware('trainer');
 
 Route::post('/trainer/{id}/submit_profile', 'UserController@submitImage')->middleware('trainer');
 
-Route::get('/trainer/create_evaluation', ['middleware' => 'trainer'], function (){
+Route::get('/trainer/create_evaluation', ['middleware' => 'trainer', function (){
+    return view('trainer.create_evaluation');
+}]);
 
-});
 
 Route::get('/user','UserController@show')->middleware('trainer');
 Route::get('user/user_detail/{id}','UserController@showUserDetail')->middleware('trainer');
@@ -65,6 +87,15 @@ Route::get('user/edit_user/{id}','UserController@editUser')->middleware('trainer
 Route::post('/user/update_user','UserController@updateUser')->middleware('trainer');
 
 Route::get('user/edit_trainee/{id}','UserController@editTrainee')->middleware('trainer');
+
 Route::post('/trainee/update_cv_info','UserController@updateTraineeCvInfo')->middleware('trainer');
 
 Route::get('/view_profile', 'UserController@viewProfile')->middleware('auth');
+
+
+
+//Route::post('/user/update_trainee','UserController@updateTrainee')->middleware('trainer');
+
+//view trainee evaluation
+Route::get('/trainee/evaluation', 'TraineeController@showEvaluation')->middleware('trainee');
+
