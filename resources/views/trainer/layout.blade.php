@@ -214,7 +214,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
 
         <ul class="list-unstyled CTAs">
             <li>
-                <a href="#">
+                <a href="/trainer/profile">
                     <div class="btn btn-outline-light">Profile</div>
                 </a>
             </li>

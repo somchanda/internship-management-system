@@ -35,6 +35,11 @@ Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
 //view trainee profile
 Route::get('/trainee/profile', 'TraineeController@viewProfile')->middleware('trainee');
 
+//view trainer and admin profile
+Route::get('/trainer/profile', ['middleware' => 'trainer', function(){
+    return view('/trainer.view_profile');
+}]);
+
 // view trainer layout
 Route::get('/trainer/layout', ['middleware' => 'trainer', function (){
     return view('trainer.layout');
