@@ -2,7 +2,7 @@
 @section('stylesheet')
     <style>
         body{
-            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);*/
         }
         .emp-profile{
             padding: 3%;
@@ -98,6 +98,7 @@
         }
     </style>
 @endsection
+@section('section_title','Profile')
 @section('content')
     <div class="container emp-profile">
 
@@ -167,8 +168,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
             </div>
             <div class="col-md-1">

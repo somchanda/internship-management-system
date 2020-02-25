@@ -17,6 +17,9 @@
             </button>
         </div>
     @endif
+    <a href="/trainer/create_account">
+        <div class="btn btn-success w-100 mb-2">Create a New User</div>
+    </a>
 {{--    Nav tap--}}
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
@@ -34,7 +37,7 @@
 {{--        Admin table--}}
         <div class="tab-pane fade {{session('tab')=='admin'?'show active':''}}" id="admin" role="tabpanel" aria-labelledby="admin-tab">
             <h1>Admin</h1>
-            <table class="table" id="table_admin">
+            <table class="display table-bordered dataTable" id="table_admin">
                 <thead>
                 <tr>
                     <th class="text-center">#</th>
@@ -88,7 +91,7 @@
 {{--        Trainer table--}}
         <div class="tab-pane fade {{session('tab')=='trainer'?'show active':''}}" id="trainer" role="tabpanel" aria-labelledby="trainer-tab">
             <h1>Trainer</h1>
-            <table class="table table-bordered" id="table_trainer">
+            <table class="display table-bordered dataTable" id="table_trainer">
                 <thead>
                 <tr>
                     <th class="text-center">#</th>
@@ -138,7 +141,7 @@
         </div>
         <div class="tab-pane fade {{session('tab')=='trainee'?'show active':''}}" id="trainee" role="tabpanel" aria-labelledby="trainee-tab">
             <h1>Trainee</h1>
-            <table class="table" id="table_trainee">
+            <table class="display table-bordered dataTable" id="table_trainee">
                 <thead>
                 <tr>
                     <th class="text-center">#</th>
