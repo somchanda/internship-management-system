@@ -1,13 +1,13 @@
 @extends('trainer.layout')
-
 @section('section_title', 'Manage Evaluations')
-
 @section('stylesheet')
 @endsection
-
-
-
 @section('content')
+    <?php
+        if(!session()->has('tab')){
+            session(['tab'=>'final']);
+        }
+    ?>
     <div class="container-fluid">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -22,17 +22,17 @@
         </a>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
+                <a class="nav-link {{ session('tab')=='first'?'active':'' }}" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
+                <a class="nav-link {{ session('tab')=='midterm'?'active':'' }}" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
+                <a class="nav-link {{ session('tab')=='final'?'active':'' }}" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
             </li>
         </ul>
         <div class="tab-content mt-2" id="myTabContent">
-            <div class="tab-pane fade show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+            <div class="tab-pane fade {{session('tab')=='first'?'show active':''}}" id="first" role="tabpanel" aria-labelledby="first-tab">
                 <table id="evaluationListTableFirst" class="display">
                     <thead>
                     <tr>
@@ -61,7 +61,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="midterm" role="tabpanel" aria-labelledby="midtern-tab">
+            <div class="tab-pane fade {{session('tab')=='midterm'?'show active':''}}" id="midterm" role="tabpanel" aria-labelledby="midtern-tab">
                 <table id="evaluationListTableMidterm" class="display">
                     <thead>
                     <tr>
@@ -83,14 +83,14 @@
                             <td>{{ $evaluation['period'] }}</td>
                             <td>
                                 <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}">Edit</div>
-                                <div class="btn btn-danger btn-delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}">Delete</div>
+                                <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}">Delete</div>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="final" role="tabpanel" aria-labelledby="final-tab">
+            <div class="tab-pane fade {{session('tab')=='final'?'show active':''}}" id="final" role="tabpanel" aria-labelledby="final-tab">
                 <table id="evaluationListTableFinal" class="display">
                     <thead>
                     <tr>
@@ -204,7 +204,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal delete -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -230,12 +230,39 @@
     </div>
 
 @endsection
-
-
-
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function () {
+
+            //call update session function when user click on tab
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                 // console.log(e.target.getAttribute('aria-controls'))
+                update_session('tab', '' + e.target.getAttribute('aria-controls'))
+            });
+            //update session
+            function update_session(session_name, session_value){
+                console.log("session name : " + session_name)
+                console.log("session value : " + session_value)
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/update_session',
+                    type: 'post',
+                    data: {
+                        session_name:session_name,
+                        session_value:session_value,
+                    },
+                    success:function (data) {
+                        console.log(data)
+                    },
+                    error: function (data) {
+                        console.log('error retrieving data')
+                    }
+                });
+            }
 
             $('.btn_delete').click(function () {
                $('#deleteModal').find('#txt_id').val($(this).attr('id'));
@@ -277,6 +304,7 @@
                $("#myModal").modal('hide');
             });
 
+            //fill trainee select when user edit data
             fillTraineeSelect();
             function fillTraineeSelect(){
                 $.ajaxSetup({
@@ -285,7 +313,7 @@
                     }
                 });
                 $.ajax({
-                    url: '/trainer/create_evaluation/fillTraineeSelect',
+                    url: '/trainer/create_evaluation/fillTraineeSelectForUpdate',
                     type: 'get',
                     success:function (data) {
                         var option='';
@@ -302,11 +330,10 @@
                 });
             }
 
+            //Make the table to dataTable
             $('#evaluationListTableFirst').DataTable();
             $('#evaluationListTableMidterm').DataTable();
             $('#evaluationListTableFinal').DataTable();
-
-
 
         });
     </script>

@@ -7,7 +7,4 @@
             <p><a class="btn btn-primary btn-lg" href="/trainee/profile" role="button">View Profile&raquo;</a></p>
         </div>
     </div>
-
-
-
 @endsection

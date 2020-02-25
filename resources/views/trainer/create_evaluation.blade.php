@@ -1,6 +1,6 @@
 @extends('trainer.layout')
 
-@section('section_title', 'Manage Evaluations')
+@section('section_title', 'Create Evaluations')
 
 @section('stylesheet')
     <style>
@@ -44,10 +44,56 @@
     </style>
     <link rel="stylesheet" href="{{ asset('css/cropper.css') }}">
 @endsection
-
-
-
 @section('content')
+{{--    <ul class="nav nav-tabs" id="myTab" role="tablist">--}}
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link active" id="evaluated_user-tab" data-toggle="tab" href="#evaluated_user" role="tab" aria-controls="evaluated_user" aria-selected="true">Evaluated User</a>--}}
+{{--        </li>--}}
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" id="tobe_evaluate-tab" data-toggle="tab" href="#tobe_evaluate" role="tab" aria-controls="tobe_evaluate" aria-selected="true">To be Evaluated User</a>--}}
+{{--        </li>--}}
+{{--    </ul>--}}
+{{--    <div class="tab-content profile-tab" id="myTabContent">--}}
+{{--        <div class="tab-pane fade show active" id="evaluated_user" role="tabpanel" aria-labelledby="evaluated_user-tab">--}}
+{{--            <table class="display dataTable" id="evaluated_user_table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>ID</th>--}}
+{{--                    <th>Name</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($evaluated_users as $evaluated_user)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $evaluated_user['id'] }}</td>--}}
+{{--                        <td>{{ $evaluated_user['last_name'].' '.$evaluated_user['first_name'] }}</td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
+{{--        </div>--}}
+{{--        <div class="tab-pane fade show" id="tobe_evaluate" role="tabpanel" aria-labelledby="tobe_evaluate-tab">--}}
+{{--            <table class="display dataTable" id="tobe_evaluate_user_table">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>ID</th>--}}
+{{--                    <th>Name</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @foreach($tobe_evaluate_users as $tobe_evaluate_user)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $tobe_evaluate_user['id'] }}</td>--}}
+{{--                        <td>{{ $tobe_evaluate_user['last_name'].' '.$tobe_evaluate_user['first_name'] }}</td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -74,9 +120,9 @@
                                 <label for="period" class="col-md-4 col-form-label text-md-right">{{ __('Period') }}</label>
                                 <div class="col-md-6">
                                     <select id="period"  name="period" class="custom-select @error('period') is-invalid @enderror">
-                                        <option  value="First Evaluation" id="first">First Evaluation</option>
-                                        <option value="Midterm Evaluation" id="mid">Midterm Evaluation</option>
-                                        <option value="Final Evaluation" id="final">Final Evaluation</option>
+{{--                                        <option  value="First Evaluation" id="first">First Evaluation</option>--}}
+{{--                                        <option value="Midterm Evaluation" id="mid">Midterm Evaluation</option>--}}
+{{--                                        <option value="Final Evaluation" id="final">Final Evaluation</option>--}}
                                     </select>
                                     @error('period')
                                     <span class="invalid-feedback" role="alert">
@@ -85,7 +131,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="form-group row">
                                 <label for="logical_thinking" class="col-md-4 col-form-label text-md-right">{{ __('Logical thinking') }}</label>
                                 <div class="col-md-6">
@@ -138,7 +183,11 @@
                                     <button type="submit" id="btn_save" class="btn btn-primary">
                                         {{ __('Create') }}
                                     </button>
+                                    <a class="btn btn-secondary" href="/trainer/evaluation_list">
+                                        {{ __('Cancel') }}
+                                    </a>
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -151,7 +200,10 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function () {
+            // $('#evaluated_user_table').dataTable();
+            // $('#tobe_evaluate_user_table').dataTable();
             fillTraineeSelect();
+
             function fillTraineeSelect(){
                 $.ajaxSetup({
                     headers: {
@@ -169,7 +221,7 @@
                         }
                         $('#trainee').append(option);
                         trainee_id=$('#trainee').val();
-                        fillPeriodSelect(trainee_id);
+                          fillPeriodSelect(trainee_id);
                         console.log(data);
                     },
                     error: function (data) {
@@ -191,49 +243,23 @@
                         id:id
                     },
                     success:function (data) {
-                        if(data.length===3) {
-                            $('#skills').attr('disabled', 'disabled');
-                             $('#period').attr('disabled', 'disabled');
-                            $('#logical_thinking').attr('disabled', 'disabled');
-                            $('#attitudes').attr('disabled', 'disabled');
-                            $('#btn_save').attr('disabled', 'disabled');
-                            $('#period').val('');
-                        }else{
-                            $('#skills').removeAttr('disabled','disabled');
-                            $('#period').removeAttr('disabled','disabled');
-                            $('#logical_thinking').removeAttr('disabled','disabled');
-                            $('#attitudes').removeAttr('disabled','disabled');
-                            $('#btn_save').removeAttr('disabled','disabled');
+                        var option='';
+                        $('#period').find('option').remove();
+                        for(var i =0;i<data.length;i++){
+                            option+='<option value="'+data[i]+'" >'+data[i]+'</option>';
                         }
-                        $('#first').show();
-                        $('#mid').show();
-                        $('#final').show();
-                        var oid = '';
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].period.toString()==='First Evaluation') {
-                                $('#first').hide();
-                            }
-                            if (data[i].period.toString()==='Midterm Evaluation') {
-                                $('#mid').hide()
-                            }
-                            if(data[i].period.toString()==='Final Evaluation') {
-                                $('#final').hide();
-                            }
-
-
-                        }
+                        $('#period').append(option);
 
                         console.log(data);
                     },
                     error: function (data) {
-
                         console.log('error retrieving data');
-
                     }
                 });
             }
             $(document).on('change','#trainee',function () {
-               fillPeriodSelect($(this).val());
+                var id = $(this).val();
+                fillPeriodSelect(id);
             });
         });
     </script>

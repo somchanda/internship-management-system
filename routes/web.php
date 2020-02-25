@@ -29,11 +29,7 @@ Route::post('/trainer/create_account', 'UserController@createAccount')->middlewa
 //Route::get('/home', 'HomeController@index')->name('home');
 
 // view trainee dashboard
-Route::get('/trainee/dashboard', ['middleware' => 'trainee', function(){
-    return view('/trainee.dashboard');
-}]);
-//view trainee profile
-Route::get('/trainee/profile', 'TraineeController@viewProfile')->middleware('trainee');
+Route::get('/trainee/dashboard', 'TraineeController@viewProfile')->middleware('trainee');
 
 //view trainer and admin profile
 Route::get('/trainer/profile', ['middleware' => 'trainer', function(){
@@ -57,6 +53,8 @@ Route::get('/back', function (){
 Route::get('/trainer/evaluation_list', 'EvaluationController@showList')->middleware('trainer');
 //fill the trainee select
 Route::get('/trainer/create_evaluation/fillTraineeSelect', 'EvaluationController@fillTraineeSelect')->middleware('trainer');
+//fill trainee select for edit modal
+Route::get('/trainer/create_evaluation/fillTraineeSelectForUpdate', 'EvaluationController@fillTraineeSelectForUpdate')->middleware('trainer');
 //fill the period select
 Route::post('/trainer/create_evaluation/fillPeriodSelect', 'EvaluationController@fillPeriodSelect')->middleware('trainer');
 //save evaluation
@@ -75,6 +73,7 @@ Route::post('/trainer/{id}/submit_profile', 'UserController@submitImage')->middl
 Route::get('/trainer/create_evaluation', ['middleware' => 'trainer', function (){
     return view('trainer.create_evaluation');
 }]);
+
 
 
 Route::get('/user','UserController@show')->middleware('trainer');
