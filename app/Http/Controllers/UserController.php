@@ -358,16 +358,24 @@ class UserController extends Controller
     }
 
     public function showDashboard(){
+        $colors = array('#d11141', '#f37735', '#00b159', '#00aedb', '#ffc425', '#3d1e6d', ' #ff3377', ' #854442', '#008744', '#009688', '#4a4e4d', '#851e3e', '#3b5998');
+
         $currentYear = Carbon::now()->year;
 
         $totalTrainee = sizeof(DB::table('trainee_infos')->where('internship_status', '=', 'Doing Internship')->get());
 
         $technology = DB::table('trainee_infos')->select(['position'])->distinct()->get();
-        $traineeEachTechnology = array();
+        $traineeEachTechnologyPosition = array();
+        $traineeEachTechnologyNumber = array();
 
         foreach ($technology as $t) {
             $numberOfPeople = sizeof(DB::table('trainee_infos')->where('internship_status', '=', 'Doing Internship')->where('position', '=', $t->position)->get());
-            array_push($traineeEachTechnology, array($t->position => $numberOfPeople));
+            array_push($traineeEachTechnologyPosition, $t->position);
+            array_push($traineeEachTechnologyNumber, $numberOfPeople);
+        }
+        $traineeEachTechnologyColor = array();
+        for($i = 0; $i < sizeof($traineeEachTechnologyNumber); $i++){
+            array_push($traineeEachTechnologyColor, $colors[$i]);
         }
 
 
@@ -441,11 +449,19 @@ class UserController extends Controller
             }
             array_push($allEvaluationData, array('month' => $month, 'a' => $evaluationGradeA, 'b' => $evaluationGradeB, 'c' => $evaluationGradeC));
         }
+        $evaluationMonths = array();
+        $evaluationGradeAs = array();
+        $evaluationGradeBs = array();
+        $evaluationGradeCs = array();
+        foreach ($allEvaluationData as $evaluation){
+            array_push($evaluationMonths, $this->numericMonthToText($evaluation['month']));
+            array_push($evaluationGradeAs, $evaluation['a']);
+            array_push($evaluationGradeBs, $evaluation['b']);
+            array_push($evaluationGradeCs, $evaluation['c']);
+        }
 
 
 
-
-        $numberOfTraineePerMonth = array();
         $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->where('internship_status', '=', 'Doing Internship')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
         $distinctMonths = array();
 
@@ -457,18 +473,25 @@ class UserController extends Controller
             }
         }
 
+        $numberOfTraineePerMonthMonth = array();
+        $numberOfTraineePerMonthNumber = array();
         foreach ($distinctMonths as $month){
-            $start_month = DB::table('trainee_infos')
+            $number = DB::table('trainee_infos')
                 ->selectRaw('month(contract_start) as month')
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
                 ->where('internship_status', '=', 'Doing Internship')
                 ->get()->count();
 
-            array_push($numberOfTraineePerMonth, array($this->numericMonthToText($month).'-'.$currentYear => $start_month));
+            array_push($numberOfTraineePerMonthMonth, $this->numericMonthToText($month));
+            array_push($numberOfTraineePerMonthNumber, $number);
         }
 
-        $numberOfTraineePerMonthByStatus = array();
+        $numberOfTraineePerMonthByStatusMonths = array();
+        $numberOfTraineePerMonthByStatusFails = array();
+        $numberOfTraineePerMonthByStatusStops = array();
+        $numberOfTraineePerMonthByStatusContinues = array();
+        $numberOfTraineePerMonthByStatusDoingInternships = array();
         $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
         $distinctMonths = [];
 
@@ -484,41 +507,49 @@ class UserController extends Controller
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
                 ->where('internship_status', '=', 'Doing Internship')
-                ->get()->groupBy('internship_status')->count();
+                ->get()->count();
             $continue = DB::table('trainee_infos')
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
                 ->where('internship_status', '=', 'Continue')
-                ->get()->groupBy('internship_status')->count();
+                ->get()->count();
             $fail = DB::table('trainee_infos')
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
                 ->where('internship_status', '=', 'Fail')
-                ->get()->groupBy('internship_status')->count();
+                ->get()->count();
             $stop = DB::table('trainee_infos')
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
                 ->where('internship_status', '=', 'Stop')
-                ->get()->groupBy('internship_status')->count();
-
-
-
-            array_push($numberOfTraineePerMonthByStatus, array('month' => $this->numericMonthToText($month), 'doing_internship' => $doing_internship, 'fail' => $fail, 'stop' => $stop, 'continue' => $continue));
+                ->get()->count();
+            array_push($numberOfTraineePerMonthByStatusMonths, $this->numericMonthToText($month));
+            array_push($numberOfTraineePerMonthByStatusFails, $fail);
+            array_push($numberOfTraineePerMonthByStatusStops, $stop);
+            array_push($numberOfTraineePerMonthByStatusContinues, $continue);
+            array_push($numberOfTraineePerMonthByStatusDoingInternships, $doing_internship);
         }
 
+        return view('trainer.dashboard')
+            ->with('total_trainee', $totalTrainee)
 
+            ->with('trainee_each_tech_position', $traineeEachTechnologyPosition)
+            ->with('trainee_each_tech_number', $traineeEachTechnologyNumber)
+            ->with('trainee_each_tech_color', $traineeEachTechnologyColor)
 
+            ->with('evaluation_months', $evaluationMonths)
+            ->with('evaluation_grade_a', $evaluationGradeAs)
+            ->with('evaluation_grade_b', $evaluationGradeBs)
+            ->with('evaluation_grade_c', $evaluationGradeCs)
 
+            ->with('trainee_per_month_month', $numberOfTraineePerMonthMonth)
+            ->with('trainee_per_month_number', $numberOfTraineePerMonthNumber)
 
-        return json_encode([
-            'total trainee' => $totalTrainee,
-            'trainee each tech' => $traineeEachTechnology,
-            'final evaluation data' => $allEvaluationData,
-            'number of trainee per month' => $numberOfTraineePerMonth,
-            'number of trainee per month' => $numberOfTraineePerMonthByStatus]);
-
-
-        return view('trainer.dashboard');
+            ->with('trainee_per_month_by_status_month', $numberOfTraineePerMonthByStatusMonths)
+            ->with('trainee_per_month_by_status_fail', $numberOfTraineePerMonthByStatusFails)
+            ->with('trainee_per_month_by_status_stop', $numberOfTraineePerMonthByStatusStops)
+            ->with('trainee_per_month_by_status_continue', $numberOfTraineePerMonthByStatusContinues)
+            ->with('trainee_per_month_by_status_doing_internship', $numberOfTraineePerMonthByStatusDoingInternships);
     }
 
     public function numericMonthToText($month){
