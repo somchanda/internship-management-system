@@ -19,6 +19,7 @@ class CreateEvaluationsTable extends Migration
             $table->enum('skills', ['A', 'B', 'C']);
             $table->enum('attitudes', ['A', 'B', 'C']);
             $table->enum('period', ['First Evaluation', 'Midterm Evaluation', 'Final Evaluation']);
+            $table->date('date');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 

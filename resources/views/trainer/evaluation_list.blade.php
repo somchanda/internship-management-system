@@ -4,10 +4,12 @@
 @endsection
 @section('content')
     <?php
-        if(!session()->has('evaluation_tab')){
-            session(['evaluation_tab'=>'final']);
-        }
+
+    if(!session()->has('evaluation_tab')){
+        session(['evaluation_tab'=>'first']);
+    }
     ?>
+
     <div class="container-fluid">
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -22,13 +24,13 @@
         </a>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ session('evaluation_tab')=='first'?'active':'' }}" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
+                <a class="nav-link {{session('evaluation_tab')=='first'?'active':''}}" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ session('evaluation_tab')=='midterm'?'active':'' }}" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
+                <a class="nav-link {{session('evaluation_tab')=='midterm'?'active':''}}" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ session('evaluation_tab')=='final'?'active':'' }}" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
+                <a class="nav-link {{session('evaluation_tab')=='final'?'active':''}}" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
             </li>
         </ul>
         <div class="tab-content mt-2" id="myTabContent">
@@ -239,30 +241,6 @@
                  // console.log(e.target.getAttribute('aria-controls'))
                 update_session('evaluation_tab', '' + e.target.getAttribute('aria-controls'))
             });
-            //update session
-            function update_session(session_name, session_value){
-                console.log("session name : " + session_name)
-                console.log("session value : " + session_value)
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/update_session',
-                    type: 'post',
-                    data: {
-                        session_name:session_name,
-                        session_value:session_value,
-                    },
-                    success:function (data) {
-                        console.log(data)
-                    },
-                    error: function (data) {
-                        console.log('error retrieving data')
-                    }
-                });
-            }
 
             $('.btn_delete').click(function () {
                $('#deleteModal').find('#txt_id').val($(this).attr('id'));
@@ -289,7 +267,7 @@
                         $('#skills').val(data[0].skills);
                         $('#attitudes').val(data[0].attitudes);
                         $('#id').val(data[0].id);
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (data) {
                         console.log('error retrieving data')
@@ -321,7 +299,7 @@
                             option+='<option value="'+data[i].id+'" >'+data[i].first_name+' '+data[i].last_name+'</option>';
                         }
                         $('#trainee').append(option);
-                        console.log(data);
+                        // console.log(data);
                     },
                     error: function (data) {
                         console.log('error retrieving data')
@@ -336,5 +314,29 @@
             $('#evaluationListTableFinal').DataTable();
 
         });
+
+        function update_session(session_name, session_value){
+            console.log("session name : " + session_name)
+            console.log("session value : " + session_value)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/update_session',
+                type: 'post',
+                data: {
+                    session_name:session_name,
+                    session_value:session_value,
+                },
+                success:function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('error retrieving data')
+                }
+            });
+        }
     </script>
 @endsection

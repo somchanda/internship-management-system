@@ -99,6 +99,12 @@
     </style>
 @endsection
 @section('content')
+    <?php
+        if(!session()->has('trainee_detail_tab')){
+            session(['trainee_detail_tab'=>'about']);
+        }
+    ?>
+
     <div class="container emp-profile">
 
         <div class="row">
@@ -120,15 +126,15 @@
                     <p class="proile-rating">CONTRACT : {{ $traineeInfo->contract_start.' -> '.$traineeInfo->contract_end }}</p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                            <a class="nav-link {{session('trainee_detail_tab')=='about'?'active':''}}" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">More</a>
+                            <a class="nav-link {{session('trainee_detail_tab')=='more'?'active':''}}" id="more-tab" data-toggle="tab" href="#more" role="tab" aria-controls="more" aria-selected="false">More</a>
                         </li>
                     </ul>
                 </div>
                 <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade {{session('trainee_detail_tab')=='about'?'show active':''}}" id="about" role="tabpanel" aria-labelledby="about-tab">
                         <div class="row">
                             <div class="col-md-4">
                                 <label>First name</label>
@@ -172,7 +178,7 @@
                     </div>
 
 
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade {{session('trainee_detail_tab')=='more'?'show active':''}}" id="more" role="tabpanel" aria-labelledby="more-tab">
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Internship Status</label>
@@ -346,7 +352,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Martial status</label>
+                                <label>Marital status</label>
                             </div>
                             <div class="col-md-8">
                                 <p>{{ $traineeInfo->marital_status }}</p>
@@ -418,7 +424,36 @@
 @endsection
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                // console.log(e.target.getAttribute('aria-controls'))
+                update_session('trainee_detail_tab', '' + e.target.getAttribute('aria-controls'))
+            });
+        });
 
+        function update_session(session_name, session_value){
+            console.log("session name : " + session_name)
+            console.log("session value : " + session_value)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/update_session',
+                type: 'post',
+                data: {
+                    session_name:session_name,
+                    session_value:session_value,
+                },
+                success:function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log('error retrieving data')
+                }
+            });
+        }
     </script>
 @endsection
 

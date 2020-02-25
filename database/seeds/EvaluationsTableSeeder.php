@@ -13,6 +13,7 @@ class EvaluationsTableSeeder extends Seeder
     {
         $evaluationValue = array('A', 'B', 'B');
         $evaluationPeriod = array('First Evaluation', 'Midterm Evaluation', 'Final Evaluation');
+        $date = array('2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01');
 
         for($i = 3; $i <= 6; $i++){
             foreach ($evaluationPeriod as $period){
@@ -21,6 +22,7 @@ class EvaluationsTableSeeder extends Seeder
                     'skills' => $evaluationValue[array_rand($evaluationValue, 1)],
                     'attitudes' => $evaluationValue[array_rand($evaluationValue, 1)],
                     'period' => $period,
+                    'date' => $date[array_rand($date, 1)],
                     'user_id' => $i.'',
                 ]);
             }
