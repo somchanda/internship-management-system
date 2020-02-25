@@ -559,7 +559,8 @@ class UserController extends Controller
 
             array_push($numberOfTraineePerMonth, array($this->numericMonthToText($month).'-'.$currentYear => $start_month));
         }
-        return $numberOfTraineePerMonth;
+
+
 
 
         return json_encode([
