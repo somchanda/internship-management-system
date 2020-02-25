@@ -197,7 +197,7 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                 {{--                    <ul class="{{ session('sidebar_dropdown') === 'close'?'list-unstyled​collapse':'list-unstyled​collapse show' }}" id="homeSubmenu">--}}
                 <ul class="collapse list-unstyled {{ session('sidebar_dropdown') === 'open'?'show':'' }}" id="homeSubmenu">
                     <li>
-                        <a href="/account/edit">
+                        <a href="{{ url('user/edit_user/'.Auth::user()->id) }}">
                             <i class="fas fa-user-edit"></i>
                             <span>Edit Profile</span>
                         </a>
