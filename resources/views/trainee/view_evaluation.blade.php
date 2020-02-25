@@ -11,48 +11,59 @@
                 <th>Logical thinking</th>
                 <th>Attitudes</th>
                 <th>Period</th>
-                <th>Total</th>
+                <th>Sub Total</th>
                 <th>Date</th>
             </tr>
         </thead>
         <tbody>
-        @php
-            $total = 0;
-            $count =0;
+        <?php
+            $totalScore = 0;
+            $grade =0;
+            $count=0;
 
-        @endphp
+        ?>
         @foreach($evaluations as $evaluation)
             <?php
-            $count++;
-                $l = '';
-                $s = '';
-                $a = '';
-                //calculate logical thinking as score
-                if($evaluation->logical_thinking == 'A'){
-                    $l =35;
-                }else if ($evaluation->logical_thinking =='B'){
-                    $l = 20;
+                $count++;
+                $logicalThinkingScore = $evaluation->logical_thinking;
+                if($logicalThinkingScore == 'A'){
+                    $logicalThinkingScore = 100;
+                }else if($logicalThinkingScore == 'B'){
+                    $logicalThinkingScore = 75;
                 }else{
-                    $l = 10;
+                    $logicalThinkingScore = 50;
                 }
-                //calculate skills as score
-                if($evaluation->skills == 'A'){
-                    $s =35;
-                }else if ($evaluation->skills =='B'){
-                    $s = 20;
+                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
+
+                $skillScore = $evaluation->skills;
+                if($skillScore == 'A'){
+                    $skillScore = 100;
+                }else if($skillScore == 'B'){
+                    $skillScore = 75;
                 }else{
-                    $s = 10;
+                    $skillScore = 50;
                 }
-                //calculate attitudes as score
-                if($evaluation->attitudes == 'A'){
-                    $a =30;
-                }else if ($evaluation->attitudes =='B'){
-                    $a = 17;
+                $skillScore = ($skillScore * 35) / 100;
+
+                $attitudeScore = $evaluation->attitudes;
+                if($attitudeScore == 'A'){
+                    $attitudeScore = 100;
+                }else if($attitudeScore == 'B'){
+                    $attitudeScore = 75;
                 }else{
-                    $a = 7;
+                    $attitudeScore = 50;
                 }
-            $subTotal = floatval($l) + floatval($s) + floatval($a);
-            $total += floatval($subTotal);
+                $attitudeScore = ($attitudeScore * 30) / 100;
+
+                $subTotalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
+                $totalScore += $subTotalScore;
+                if($subTotalScore >= 75){
+                    $subTotalScore = 'A';
+                }else if($subTotalScore >= 50 && $subTotalScore < 75){
+                    $subTotalScore = 'B';
+                }else if($subTotalScore < 50){
+                    $subTotalScore = 'C';
+                }
             ?>
             <tr>
                 <td>{{$evaluation->skills}}</td>
@@ -60,20 +71,29 @@
                 <td>{{$evaluation->attitudes}}</td>
                 <td>{{$evaluation->period}}</td>
                 <td>
-                    {{ $subTotal  }}
+                    {{ $subTotalScore  }}
                 </td>
-                <td>@if($evaluation->created_at != null) {{date('d/M/Y', strtotime($evaluation->created_at))}} @endif</td>
+                <td>{{ date('d/M/Y',strtotime($evaluation->date))}}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    <?php
+        $totalScore = $totalScore/3;
+        if($totalScore >= 75){
+            $grade = 'A';
+        }else if($totalScore >= 50 && $totalScore < 75){
+            $grade = 'B';
+        }else if($totalScore < 50){
+            $grade = 'C';
+        }
+    ?>
 {{--    Result for evaluation--}}
-{{--    @if($count == 3)--}}
-{{--        <h3 class="text-info">Average : {{ $result= round($total/3,2) }}</h3><br>--}}
-{{--        <h3 class="text-info">Result : @if($result >=50 ) <strong class="text-success">PASS</strong> @else <strong class="text-danger">FAIL</strong> @endif</h3>--}}
-{{--    @else--}}
-{{--        <h3 class="text-danger">Haven't finished evaluation yet!</h3>--}}
-{{--    @endif--}}
+    @if($count == 3)
+        <h4 class="alert alert-info mt-3">Your Total Grade : <strong> {{ $grade }} </strong></h4>
+    @else
+        <h4 class="text-danger">Haven't finished evaluation yet!</h4>
+    @endif
 @endsection
 @section('script')
     <script>

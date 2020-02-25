@@ -40,7 +40,6 @@ class Controller extends BaseController
                 return redirect('/trainee/dashboard');
             }
         }
-
         return redirect('login');
     }
 }

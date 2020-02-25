@@ -1,5 +1,5 @@
 @extends('trainer.layout')
-
+@section('section_title', 'Create New Account')
 @section('stylesheet')
     <style>
         #card-header {
@@ -8,6 +8,9 @@
 
         #card-body {
             background-color: rgba(134, 183, 0, 0.21);
+        }
+        body{
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);*/
         }
     </style>
 @endsection
@@ -41,11 +44,9 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center" id="card-header">{{ __('Create New Account') }}</div>
-
                     <div class="card-body" id="card-body">
                         <form method="POST" action="/trainer/create_account">
                             @csrf
-
                             <div class="form-group row">
                                 <label for="first_name" class="col-md-4 col-form-label text-md-right">{{ __('First Name') }}</label>
 

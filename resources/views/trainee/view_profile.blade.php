@@ -104,7 +104,7 @@
     <div class="container emp-profile">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="profile-img">
+                    <div class="profile-img" data-toggle="modal" data-target="#imageModal" style="cursor: pointer">
                         <img src="{{asset(Auth::user()->photo)}}" alt=""/>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
                                     <label>Start Date</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p> {{ date('d/M/Y', strtotime($trainee->start_date)) }} </p>
+                                    <p> {{ date('d/F/Y', strtotime($trainee->contract_start)) }} </p>
                                 </div>
                             </div>
                             <div class="row">
@@ -237,7 +237,7 @@
                                     <label>End Date</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p> {{ date('d/M/Y', strtotime($trainee->end_date)) }} </p>
+                                    <p> {{ date('d/F/Y', strtotime($trainee->contract_end)) }} </p>
                                 </div>
                             </div>
                             <div class="row">
@@ -277,7 +277,7 @@
                                     <label>Date of birth</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p> {{ date('d/M/Y', strtotime($trainee->dob)) }} </p>
+                                    <p> {{ date('d/F/Y', strtotime($trainee->dob)) }} </p>
                                 </div>
                             </div>
                             <div class="row">

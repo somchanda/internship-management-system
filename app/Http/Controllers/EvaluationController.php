@@ -93,6 +93,7 @@ class EvaluationController extends Controller
             'attitudes' => 'required',
             'user_id' => 'required',
             'period' => 'required',
+            'date'=>'required'
         ]);
 
         Evaluation::create($validatedData);
@@ -109,6 +110,7 @@ class EvaluationController extends Controller
         $evaluation->attitudes = $request->input('attitudes');
         $evaluation->period = $request->input('period');
         $evaluation->user_id = $request->input('user_id');
+        $evaluation->date = $request->input('date');
         $evaluation->save();
         return back()->with('success','Evaluation has updated');
     }

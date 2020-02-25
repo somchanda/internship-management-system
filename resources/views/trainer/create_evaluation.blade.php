@@ -4,6 +4,9 @@
 
 @section('stylesheet')
     <style>
+        body{
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);*/
+        }
         .avatar{
             width: 5rem;
             height: 5rem;
@@ -45,55 +48,6 @@
     <link rel="stylesheet" href="{{ asset('css/cropper.css') }}">
 @endsection
 @section('content')
-{{--    <ul class="nav nav-tabs" id="myTab" role="tablist">--}}
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link active" id="evaluated_user-tab" data-toggle="tab" href="#evaluated_user" role="tab" aria-controls="evaluated_user" aria-selected="true">Evaluated User</a>--}}
-{{--        </li>--}}
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link" id="tobe_evaluate-tab" data-toggle="tab" href="#tobe_evaluate" role="tab" aria-controls="tobe_evaluate" aria-selected="true">To be Evaluated User</a>--}}
-{{--        </li>--}}
-{{--    </ul>--}}
-{{--    <div class="tab-content profile-tab" id="myTabContent">--}}
-{{--        <div class="tab-pane fade show active" id="evaluated_user" role="tabpanel" aria-labelledby="evaluated_user-tab">--}}
-{{--            <table class="display dataTable" id="evaluated_user_table">--}}
-{{--                <thead>--}}
-{{--                <tr>--}}
-{{--                    <th>ID</th>--}}
-{{--                    <th>Name</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
-{{--                <tbody>--}}
-{{--                @foreach($evaluated_users as $evaluated_user)--}}
-{{--                    <tr>--}}
-{{--                        <td>{{ $evaluated_user['id'] }}</td>--}}
-{{--                        <td>{{ $evaluated_user['last_name'].' '.$evaluated_user['first_name'] }}</td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
-{{--                </tbody>--}}
-{{--            </table>--}}
-{{--        </div>--}}
-{{--        <div class="tab-pane fade show" id="tobe_evaluate" role="tabpanel" aria-labelledby="tobe_evaluate-tab">--}}
-{{--            <table class="display dataTable" id="tobe_evaluate_user_table">--}}
-{{--                <thead>--}}
-{{--                <tr>--}}
-{{--                    <th>ID</th>--}}
-{{--                    <th>Name</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
-{{--                <tbody>--}}
-{{--                @foreach($tobe_evaluate_users as $tobe_evaluate_user)--}}
-{{--                    <tr>--}}
-{{--                        <td>{{ $tobe_evaluate_user['id'] }}</td>--}}
-{{--                        <td>{{ $tobe_evaluate_user['last_name'].' '.$tobe_evaluate_user['first_name'] }}</td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
-{{--                </tbody>--}}
-{{--            </table>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -125,6 +79,19 @@
 {{--                                        <option value="Final Evaluation" id="final">Final Evaluation</option>--}}
                                     </select>
                                     @error('period')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="date" class="col-md-4 col-form-label text-md-right">{{ __('Month') }}</label>
+                                <div class="col-md-6">
+                                    <select id="date"  name="date" class="custom-select @error('date') is-invalid @enderror">
+
+                                    </select>
+                                    @error('date')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -187,7 +154,6 @@
                                         {{ __('Cancel') }}
                                     </a>
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -200,10 +166,22 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function () {
-            // $('#evaluated_user_table').dataTable();
-            // $('#tobe_evaluate_user_table').dataTable();
-            fillTraineeSelect();
+            //to fill select month
+            fillMonthSelect();
+            //fill month select function
+            function fillMonthSelect() {
+                var d = new Date();
+                var option ='';
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                for(var i = 0; i < 12; i++){
+                    option +='<option value="'+d.getFullYear()+'/'+(i+1)+'/01">'+monthNames[i]+'</option>';
+                }
+                $('#date').append(option);
+            }
 
+            fillTraineeSelect();
             function fillTraineeSelect(){
                 $.ajaxSetup({
                     headers: {

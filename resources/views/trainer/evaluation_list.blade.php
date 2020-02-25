@@ -4,10 +4,9 @@
 @endsection
 @section('content')
     <?php
-
-    if(!session()->has('evaluation_tab')){
-        session(['evaluation_tab'=>'first']);
-    }
+        if(!session()->has('evaluation_tab')){
+            session(['evaluation_tab'=>'first']);
+        }
     ?>
 
     <div class="container-fluid">
@@ -35,7 +34,7 @@
         </ul>
         <div class="tab-content mt-2" id="myTabContent">
             <div class="tab-pane fade {{session('evaluation_tab')=='first'?'show active':''}}" id="first" role="tabpanel" aria-labelledby="first-tab">
-                <table id="evaluationListTableFirst" class="display">
+                <table id="evaluationListTableFirst" class="display table-bordered dataTable">
                     <thead>
                     <tr>
                         <th>Trainee Name</th>
@@ -43,7 +42,8 @@
                         <th>Skills</th>
                         <th>Attitudes</th>
                         <th>Period</th>
-                        <th></th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,6 +54,7 @@
                             <td>{{ $evaluation['skills'] }}</td>
                             <td>{{ $evaluation['attitudes'] }}</td>
                             <td>{{ $evaluation['period'] }}</td>
+                            <td>{{ date('d/M/Y',strtotime($evaluation['date'])) }}</td>
                             <td>
                                 <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}"><i class="fas fa-user-edit"></i></div>
                                 <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}"><i class="fas fa-user-minus"></i></div>
@@ -64,7 +65,7 @@
                 </table>
             </div>
             <div class="tab-pane fade {{session('evaluation_tab')=='midterm'?'show active':''}}" id="midterm" role="tabpanel" aria-labelledby="midtern-tab">
-                <table id="evaluationListTableMidterm" class="display">
+                <table id="evaluationListTableMidterm" class="display table-bordered dataTable">
                     <thead>
                     <tr>
                         <th>Trainee Name</th>
@@ -72,7 +73,8 @@
                         <th>Skills</th>
                         <th>Attitudes</th>
                         <th>Period</th>
-                        <th></th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -83,6 +85,7 @@
                             <td>{{ $evaluation['skills'] }}</td>
                             <td>{{ $evaluation['attitudes'] }}</td>
                             <td>{{ $evaluation['period'] }}</td>
+                            <td>{{ date('d/M/Y',strtotime($evaluation['date'])) }}</td>
                             <td>
                                 <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}"><i class="fas fa-user-edit"></i></div>
                                 <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}"><i class="fas fa-user-minus"></i></div>
@@ -93,7 +96,7 @@
                 </table>
             </div>
             <div class="tab-pane fade {{session('evaluation_tab')=='final'?'show active':''}}" id="final" role="tabpanel" aria-labelledby="final-tab">
-                <table id="evaluationListTableFinal" class="display">
+                <table id="evaluationListTableFinal" class="display table-bordered dataTable">
                     <thead>
                     <tr>
                         <th>Trainee Name</th>
@@ -101,7 +104,8 @@
                         <th>Skills</th>
                         <th>Attitudes</th>
                         <th>Period</th>
-                        <th></th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -112,6 +116,7 @@
                             <td>{{ $evaluation['skills'] }}</td>
                             <td>{{ $evaluation['attitudes'] }}</td>
                             <td>{{ $evaluation['period'] }}</td>
+                            <td>{{ date('d/M/Y',strtotime($evaluation['date'])) }}</td>
                             <td>
                                 <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}"><i class="fas fa-user-edit"></i></div>
                                 <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}"><i class="fas fa-user-minus"></i></div>
@@ -154,7 +159,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="date" class="col-md-4 col-form-label text-md-right">{{ __('Month') }}</label>
+                                        <div class="col-md-6">
+                                            <select id="date"  name="date" class="custom-select @error('date') is-invalid @enderror">
 
+                                            </select>
+                                            @error('date')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label for="logical_thinking" class="col-md-4 col-form-label text-md-right">{{ __('Logical thinking') }}</label>
                                         <div class="col-md-6">
@@ -236,6 +253,25 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            //to fill select month
+            fillMonthSelect();
+            //fill month select function
+            function fillMonthSelect() {
+                var d = new Date();
+                var option ='';
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                for(var i = 0; i < 12; i++){
+                    if( i < 9 ){
+                        option +='<option value="'+d.getFullYear()+'-'+0+(i+1)+'-01">'+monthNames[i]+'</option>';
+                    }else {
+                        option +='<option value="'+d.getFullYear()+'-'+(i+1)+'-01">'+monthNames[i]+'</option>';
+                    }
+                }
+                $('#date').append(option);
+            }
+
             //call update session function when user click on tab
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                  // console.log(e.target.getAttribute('aria-controls'))
@@ -267,7 +303,8 @@
                         $('#skills').val(data[0].skills);
                         $('#attitudes').val(data[0].attitudes);
                         $('#id').val(data[0].id);
-                        // console.log(data);
+                        $('#date').val(data[0].date);
+                         console.log(data);
                     },
                     error: function (data) {
                         console.log('error retrieving data')

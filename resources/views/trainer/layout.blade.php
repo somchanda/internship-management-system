@@ -202,12 +202,6 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                             <span>Edit Profile</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-key"></i>
-                            <span>Change Password</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
         </ul>
@@ -431,7 +425,6 @@ if(!session()->has('sidebar_dropdown_manage_appraisal')){
                 }
             });
         }
-
         @yield('script')
     });
 </script>
