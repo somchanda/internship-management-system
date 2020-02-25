@@ -358,38 +358,43 @@ class UserController extends Controller
     }
 
     public function showDashboard(){
-        $totalTrainee = sizeof(User::all()->where('type', '=', 'Trainee'));
+        $currentYear = Carbon::now()->year;
+
+        $totalTrainee = sizeof(DB::table('trainee_infos')->where('internship_status', '=', 'Doing Internship')->get());
+
         $technology = DB::table('trainee_infos')->select(['position'])->distinct()->get();
         $traineeEachTechnology = array();
 
         foreach ($technology as $t) {
-            $numberOfPeople = sizeof(DB::table('trainee_infos')->where('position', '=', $t->position)->get());
+            $numberOfPeople = sizeof(DB::table('trainee_infos')->where('internship_status', '=', 'Doing Internship')->where('position', '=', $t->position)->get());
             array_push($traineeEachTechnology, array($t->position => $numberOfPeople));
         }
 
 
+        // get month that has evaluation
+        $evaluationMonths = DB::table('evaluations')->selectRaw('month(date) as month')->whereYear('date', '=', $currentYear)->distinct()->get();
+        $temp = array();
+        foreach ($evaluationMonths as $month){
+            array_push($temp, $month->month);
+        }
+        $evaluationMonths = $temp;
+        sort($evaluationMonths);
 
-        $firstEvaluationGradeA = 0;
-        $firstEvaluationGradeB = 0;
-        $firstEvaluationGradeC = 0;
+        $allEvaluationData = array();
 
-        $midtermEvaluationGradeA = 0;
-        $midtermEvaluationGradeB = 0;
-        $midtermEvaluationGradeC = 0;
+        // get evaluation for each month
+        foreach ($evaluationMonths as $month) {
+            $evaluationGradeA = 0;
+            $evaluationGradeB = 0;
+            $evaluationGradeC = 0;
+            $evaluations = DB::table('evaluations')
+                ->join('users', 'evaluations.user_id', '=', 'users.id')
+                ->join('trainee_infos', 'users.id', '=', 'trainee_infos.user_id')
+                ->where('trainee_infos.internship_status', '=', 'Doing Internship')
+                ->whereMonth('evaluations.date', $month)
+                ->get();
 
-        $finalEvaluationGradeA = 0;
-        $finalEvaluationGradeB = 0;
-        $finalEvaluationGradeC = 0;
-
-        $firstEvaluationIsExist = false;
-        $midtermEvaluationIsExist = false;
-        $finalEvaluationIsExist = false;
-
-        // check if first evaluation is exist
-        $firstEvaluation = Evaluation::all()->where('period', '=', 'First Evaluation');
-        if($firstEvaluation != null){
-            $firstEvaluationIsExist = true;
-            foreach ($firstEvaluation as $evaluation){
+            foreach ($evaluations as $evaluation){
                 $logicalThinkingScore = $evaluation->logical_thinking;
                 if($logicalThinkingScore == 'A'){
                     $logicalThinkingScore = 100;
@@ -424,121 +429,24 @@ class UserController extends Controller
 
                 if($totalScore >= 75){
                     $totalScore = 'A';
-                    $firstEvaluationGradeA += 1;
+                    $evaluationGradeA += 1;
                 }else if($totalScore >= 50 && $totalScore < 75){
                     $totalScore = 'B';
-                    $firstEvaluationGradeB += 1;
+                    $evaluationGradeB += 1;
                 }else if($totalScore < 50){
                     $totalScore = 'C';
-                    $firstEvaluationGradeC += 1;
+                    $evaluationGradeC += 1;
                 }
+
             }
+            array_push($allEvaluationData, array('month' => $month, 'a' => $evaluationGradeA, 'b' => $evaluationGradeB, 'c' => $evaluationGradeC));
         }
 
-        // check if midterm evaluation is exist
-        $midtermEvaluation = Evaluation::all()->where('period', '=', 'Midterm Evaluation');
-        if($midtermEvaluation != null){
-            $midtermEvaluationIsExist = true;
-            foreach ($midtermEvaluation as $evaluation){
-                $logicalThinkingScore = $evaluation->logical_thinking;
-                if($logicalThinkingScore == 'A'){
-                    $logicalThinkingScore = 100;
-                }else if($logicalThinkingScore == 'B'){
-                    $logicalThinkingScore = 75;
-                }else{
-                    $logicalThinkingScore = 50;
-                }
-                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
 
-                $skillScore = $evaluation->skills;
-                if($skillScore == 'A'){
-                    $skillScore = 100;
-                }else if($skillScore == 'B'){
-                    $skillScore = 75;
-                }else{
-                    $skillScore = 50;
-                }
-                $skillScore = ($skillScore * 35) / 100;
-
-                $attitudeScore = $evaluation->attitudes;
-                if($attitudeScore == 'A'){
-                    $attitudeScore = 100;
-                }else if($attitudeScore == 'B'){
-                    $attitudeScore = 75;
-                }else{
-                    $attitudeScore = 50;
-                }
-                $attitudeScore = ($attitudeScore * 30) / 100;
-
-                $totalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
-
-                if($totalScore >= 75){
-                    $totalScore = 'A';
-                    $midtermEvaluationGradeA += 1;
-                }else if($totalScore >= 50 && $totalScore < 75){
-                    $totalScore = 'B';
-                    $midtermEvaluationGradeB += 1;
-                }else if($totalScore < 50){
-                    $totalScore = 'C';
-                    $midtermEvaluationGradeC += 1;
-                }
-            }
-        }
-
-        // check if final evaluation is exist
-        $finalEvaluation = Evaluation::all()->where('period', '=', 'Final Evaluation');
-        if($finalEvaluation != null){
-            $finalEvaluationIsExist = true;
-            foreach ($finalEvaluation as $evaluation){
-                $logicalThinkingScore = $evaluation->logical_thinking;
-                if($logicalThinkingScore == 'A'){
-                    $logicalThinkingScore = 100;
-                }else if($logicalThinkingScore == 'B'){
-                    $logicalThinkingScore = 75;
-                }else{
-                    $logicalThinkingScore = 50;
-                }
-                $logicalThinkingScore = ($logicalThinkingScore * 35) / 100;
-
-                $skillScore = $evaluation->skills;
-                if($skillScore == 'A'){
-                    $skillScore = 100;
-                }else if($skillScore == 'B'){
-                    $skillScore = 75;
-                }else{
-                    $skillScore = 50;
-                }
-                $skillScore = ($skillScore * 35) / 100;
-
-                $attitudeScore = $evaluation->attitudes;
-                if($attitudeScore == 'A'){
-                    $attitudeScore = 100;
-                }else if($attitudeScore == 'B'){
-                    $attitudeScore = 75;
-                }else{
-                    $attitudeScore = 50;
-                }
-                $attitudeScore = ($attitudeScore * 30) / 100;
-
-                $totalScore = $logicalThinkingScore + $skillScore + $attitudeScore;
-
-                if($totalScore >= 75){
-                    $totalScore = 'A';
-                    $finalEvaluationGradeA += 1;
-                }else if($totalScore >= 50 && $totalScore < 75){
-                    $totalScore = 'B';
-                    $finalEvaluationGradeB += 1;
-                }else if($totalScore < 50){
-                    $totalScore = 'C';
-                    $finalEvaluationGradeB += 1;
-                }
-            }
-        }
 
 
         $numberOfTraineePerMonth = array();
-        $currentYear = Carbon::now()->year;
-        $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
+        $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->where('internship_status', '=', 'Doing Internship')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
         $distinctMonths = array();
 
         foreach ($months as $month) {
@@ -549,16 +457,55 @@ class UserController extends Controller
             }
         }
 
-        $numberOfTraineePerMonth = array();
         foreach ($distinctMonths as $month){
             $start_month = DB::table('trainee_infos')
                 ->selectRaw('month(contract_start) as month')
                 ->whereYear('contract_start', '=', $currentYear)
                 ->whereMonth('contract_start', '<=', $month)
+                ->where('internship_status', '=', 'Doing Internship')
                 ->get()->count();
 
             array_push($numberOfTraineePerMonth, array($this->numericMonthToText($month).'-'.$currentYear => $start_month));
         }
+
+        $numberOfTraineePerMonthByStatus = array();
+        $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
+        $distinctMonths = [];
+
+        foreach ($months as $month) {
+            if(in_array($month->month, $distinctMonths)){
+                continue;
+            }else{
+                array_push($distinctMonths, $month->month);
+            }
+        }
+        foreach ($distinctMonths as $month){
+            $doing_internship = DB::table('trainee_infos')
+                ->whereYear('contract_start', '=', $currentYear)
+                ->whereMonth('contract_start', '<=', $month)
+                ->where('internship_status', '=', 'Doing Internship')
+                ->get()->groupBy('internship_status')->count();
+            $continue = DB::table('trainee_infos')
+                ->whereYear('contract_start', '=', $currentYear)
+                ->whereMonth('contract_start', '<=', $month)
+                ->where('internship_status', '=', 'Continue')
+                ->get()->groupBy('internship_status')->count();
+            $fail = DB::table('trainee_infos')
+                ->whereYear('contract_start', '=', $currentYear)
+                ->whereMonth('contract_start', '<=', $month)
+                ->where('internship_status', '=', 'Fail')
+                ->get()->groupBy('internship_status')->count();
+            $stop = DB::table('trainee_infos')
+                ->whereYear('contract_start', '=', $currentYear)
+                ->whereMonth('contract_start', '<=', $month)
+                ->where('internship_status', '=', 'Stop')
+                ->get()->groupBy('internship_status')->count();
+
+
+
+            array_push($numberOfTraineePerMonthByStatus, array('month' => $this->numericMonthToText($month), 'doing_internship' => $doing_internship, 'fail' => $fail, 'stop' => $stop, 'continue' => $continue));
+        }
+
 
 
 
@@ -566,18 +513,9 @@ class UserController extends Controller
         return json_encode([
             'total trainee' => $totalTrainee,
             'trainee each tech' => $traineeEachTechnology,
-            'first exist' => $firstEvaluationIsExist,
-            'mid exist' => $midtermEvaluationIsExist,
-            'final exist' => $finalEvaluationIsExist,
-            'first g a' => $firstEvaluationGradeA,
-            'first g b' => $firstEvaluationGradeB,
-            'first g c' => $firstEvaluationGradeC,
-            'mid g a' => $midtermEvaluationGradeA,
-            'mid g b' => $midtermEvaluationGradeB,
-            'mid g c' => $midtermEvaluationGradeC,
-            'final g a' => $finalEvaluationGradeA,
-            'final g b' => $finalEvaluationGradeB,
-            'final g c' => $finalEvaluationGradeC]);
+            'final evaluation data' => $allEvaluationData,
+            'number of trainee per month' => $numberOfTraineePerMonth,
+            'number of trainee per month' => $numberOfTraineePerMonthByStatus]);
 
 
         return view('trainer.dashboard');
