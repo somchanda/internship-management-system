@@ -123,14 +123,21 @@
                     <h6>
                         {{$trainee->type}}
                     </h6>
-                    <p class="proile-rating">CONTRACT : {{ $traineeInfo->contract_start.' -> '.$traineeInfo->contract_end }}</p>
+                    @if($traineeInfo != null)
+                        <?php
+                        session(['trainee_detail_tab'=>'about']);
+                        ?>
+                        <p class="proile-rating">CONTRACT : {{ $traineeInfo->contract_start.' -> '.$traineeInfo->contract_end }}</p>
+                    @endif
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link {{session('trainee_detail_tab')=='about'?'active':''}}" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
                         </li>
+                        @if($traineeInfo != null)
                         <li class="nav-item">
                             <a class="nav-link {{session('trainee_detail_tab')=='more'?'active':''}}" id="more-tab" data-toggle="tab" href="#more" role="tab" aria-controls="more" aria-selected="false">More</a>
                         </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="tab-content profile-tab" id="myTabContent">
@@ -178,6 +185,7 @@
                     </div>
 
 
+                    @if($traineeInfo != null)
                     <div class="tab-pane fade {{session('trainee_detail_tab')=='more'?'show active':''}}" id="more" role="tabpanel" aria-labelledby="more-tab">
                         <div class="row">
                             <div class="col-md-4">
@@ -411,6 +419,7 @@
                         </div>
 
                     </div>
+                    @endif
                 </div>
             </div>
             <div class="col-md-1">

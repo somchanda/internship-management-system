@@ -32,9 +32,11 @@
         <li class="nav-item">
             <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Infomation</a>
         </li>
+        @if($traineeInfo != null)
         <li class="nav-item">
             <a class="nav-link" id="cvInfo-tab" data-toggle="tab" href="#cvInfo" role="tab" aria-controls="cvInfo" aria-selected="false">CV Information</a>
         </li>
+        @endif
     </ul>
     <div class="tab-content mt-2 mb-2" id="myTabContent">
         <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
@@ -97,6 +99,7 @@
             </form>
         </div>
 
+        @if($traineeInfo != null)
         <div class="tab-pane fade" id="cvInfo" role="tabpanel" aria-labelledby="cvInfo-tab">
             <form method="post" action="/trainee/update_cv_info" class="col-10 offset-1">
                 @csrf
@@ -423,6 +426,7 @@
                 <input type="submit" name="btn_save" value="Save Change" class="btn btn-info">
             </form>
         </div>
+        @endif
     </div>
 
 
