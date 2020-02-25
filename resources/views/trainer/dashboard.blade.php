@@ -2,34 +2,42 @@
 
 @section('section_title', 'Dashboard')
 
+@section('stylesheet')
+    <style>
+        body {
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-5">
-                <div class="m-2" style="background-color: #c5daf0;">
+                <div class="p-1 h-100" style="background-color: #ececec;">
                     <canvas id="trainee_each_tech_chart" width="1600" height="900"></canvas>
                     <div class="m-auto" style="width: -moz-fit-content; width: fit-content;">
                         @for($i = 0; $i < sizeof($trainee_each_tech_position); $i++)
-                            <div>{{ $trainee_each_tech_position[$i] }}: {{ $trainee_each_tech_number[$i] }}</div>
+                            <span class="badge" style="background-color: {{ $colors[$i] }}; color: #fff;">{{ $trainee_each_tech_position[$i] }}: {{ $trainee_each_tech_number[$i] }}</span>
                         @endfor
-                        <div>Total: {{ $total_trainee }}</div>
+                        <span class="badge badge-secondary">Total: {{ $total_trainee }}</span>
                     </div>
                 </div>
             </div>
             <div class="col-7">
-                <div class="m-2" style="background-color: #feb7ff;">
+                <div class="p-1 h-100" style="background-color: #ececec;">
                     <canvas id="trainee_each_performance_chart" width="1600" height="900"></canvas>
                 </div>
 
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-6">
-                <div class="m-2" style="background-color: #9cfffc;">
+                <div style="background-color: #ececec;">
                     <canvas id="trainee_per_month_chart" width="1600" height="900"></canvas>
                 </div>
             </div><div class="col-6">
-                <div class="m-2" style="background-color: rgba(21,125,255,0.61);">
+                <div style="background-color: #ececec;">
                     <canvas id="trainee_per_month_by_status_chart" width="1600" height="900"></canvas>
                 </div>
             </div>
@@ -53,7 +61,7 @@
                 labels: trainee_each_tech_label,
                 datasets: [
                     {
-                        label: "Population (millions)",
+                        label: "",
                         backgroundColor: trainee_each_tech_color,
                         data: trainee_each_tech_data
                     }
@@ -77,15 +85,15 @@
                 labels: evaluation_months,
                 datasets: [
                     {
-                        label: "grade A: ",
+                        label: "grade A",
                         backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
                         data: evaluation_grade_a
                     },{
-                        label: "grade B: ",
+                        label: "grade B",
                         backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
                         data: evaluation_grade_b
                     },{
-                        label: "grade C: ",
+                        label: "grade C",
                         backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
                         data: evaluation_grade_c
                     }
@@ -95,7 +103,7 @@
                 legend: { display: false },
                 title: {
                     display: true,
-                    text: 'Predicted world population (millions) in 2050'
+                    text: 'Number of interns by evaluation score'
                 }
             }
         });

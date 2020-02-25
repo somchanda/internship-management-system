@@ -11,11 +11,11 @@ class EvaluationsTableSeeder extends Seeder
      */
     public function run()
     {
-        $evaluationValue = array('A', 'B', 'B');
+        $evaluationValue = array('A', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'B');
         $evaluationPeriod = array('First Evaluation', 'Midterm Evaluation', 'Final Evaluation');
         $date = array('2020-01-01', '2020-02-01', '2020-03-01', '2020-04-01');
 
-        for($i = 3; $i <= 6; $i++){
+        for($i = 3; $i <= 17; $i++){
             foreach ($evaluationPeriod as $period){
                 DB::table('evaluations')->insert([
                     'logical_thinking' => $evaluationValue[array_rand($evaluationValue, 1)],

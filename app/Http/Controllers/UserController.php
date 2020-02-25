@@ -465,6 +465,7 @@ class UserController extends Controller
         $months = DB::table('trainee_infos')->selectRaw('month(contract_start) as month')->where('internship_status', '=', 'Doing Internship')->whereYear('contract_start', '=', $currentYear)->orderBy('contract_start')->get();
         $distinctMonths = array();
 
+
         foreach ($months as $month) {
             if(in_array($month->month, $distinctMonths)){
                 continue;
@@ -473,17 +474,21 @@ class UserController extends Controller
             }
         }
 
+
+        $min_month = min($distinctMonths);
+        $max_month = max($distinctMonths);
+
         $numberOfTraineePerMonthMonth = array();
         $numberOfTraineePerMonthNumber = array();
-        foreach ($distinctMonths as $month){
+        for ($i = $min_month; $i <= $max_month; $i++){
             $number = DB::table('trainee_infos')
                 ->selectRaw('month(contract_start) as month')
                 ->whereYear('contract_start', '=', $currentYear)
-                ->whereMonth('contract_start', '<=', $month)
+                ->whereMonth('contract_start', '<=', $i)
                 ->where('internship_status', '=', 'Doing Internship')
                 ->get()->count();
 
-            array_push($numberOfTraineePerMonthMonth, $this->numericMonthToText($month));
+            array_push($numberOfTraineePerMonthMonth, $this->numericMonthToText($i));
             array_push($numberOfTraineePerMonthNumber, $number);
         }
 
@@ -531,6 +536,7 @@ class UserController extends Controller
         }
 
         return view('trainer.dashboard')
+            ->with('colors', $colors)
             ->with('total_trainee', $totalTrainee)
 
             ->with('trainee_each_tech_position', $traineeEachTechnologyPosition)

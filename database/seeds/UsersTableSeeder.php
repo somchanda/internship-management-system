@@ -82,5 +82,19 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('12345678'),
 
         ]);
+
+        for($i = 6; $i <= 17; $i ++){
+            DB::table('users')->insert([
+                'first_name' => 'Trainee',
+                'last_name' => 'Number'.$i,
+                'sex' => 'Male',
+                'phone' => '012345674',
+                'photo' => 'img/man_profile_icon.png',
+                'type' => 'Trainee',
+                'email' => 'trainee.number'.$i.'@allweb.com.kh',
+                'password' => Hash::make('12345678'),
+
+            ]);
+        }
     }
 }
