@@ -67,6 +67,7 @@
         @endforeach
         </tbody>
     </table>
+{{--    Result for evaluation--}}
 {{--    @if($count == 3)--}}
 {{--        <h3 class="text-info">Average : {{ $result= round($total/3,2) }}</h3><br>--}}
 {{--        <h3 class="text-info">Result : @if($result >=50 ) <strong class="text-success">PASS</strong> @else <strong class="text-danger">FAIL</strong> @endif</h3>--}}

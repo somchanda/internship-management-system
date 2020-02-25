@@ -4,8 +4,8 @@
 @endsection
 @section('content')
     <?php
-        if(!session()->has('tab')){
-            session(['tab'=>'final']);
+        if(!session()->has('evaluation_tab')){
+            session(['evaluation_tab'=>'final']);
         }
     ?>
     <div class="container-fluid">
@@ -22,17 +22,17 @@
         </a>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ session('tab')=='first'?'active':'' }}" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
+                <a class="nav-link {{ session('evaluation_tab')=='first'?'active':'' }}" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="true">First Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ session('tab')=='midterm'?'active':'' }}" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
+                <a class="nav-link {{ session('evaluation_tab')=='midterm'?'active':'' }}" id="midterm-tab" data-toggle="tab" href="#midterm" role="tab" aria-controls="midterm" aria-selected="false">Midterm Evaluation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ session('tab')=='final'?'active':'' }}" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
+                <a class="nav-link {{ session('evaluation_tab')=='final'?'active':'' }}" id="final-tab" data-toggle="tab" href="#final" role="tab" aria-controls="final" aria-selected="false">Final Evaluation</a>
             </li>
         </ul>
         <div class="tab-content mt-2" id="myTabContent">
-            <div class="tab-pane fade {{session('tab')=='first'?'show active':''}}" id="first" role="tabpanel" aria-labelledby="first-tab">
+            <div class="tab-pane fade {{session('evaluation_tab')=='first'?'show active':''}}" id="first" role="tabpanel" aria-labelledby="first-tab">
                 <table id="evaluationListTableFirst" class="display">
                     <thead>
                     <tr>
@@ -61,7 +61,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade {{session('tab')=='midterm'?'show active':''}}" id="midterm" role="tabpanel" aria-labelledby="midtern-tab">
+            <div class="tab-pane fade {{session('evaluation_tab')=='midterm'?'show active':''}}" id="midterm" role="tabpanel" aria-labelledby="midtern-tab">
                 <table id="evaluationListTableMidterm" class="display">
                     <thead>
                     <tr>
@@ -90,7 +90,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade {{session('tab')=='final'?'show active':''}}" id="final" role="tabpanel" aria-labelledby="final-tab">
+            <div class="tab-pane fade {{session('evaluation_tab')=='final'?'show active':''}}" id="final" role="tabpanel" aria-labelledby="final-tab">
                 <table id="evaluationListTableFinal" class="display">
                     <thead>
                     <tr>
@@ -237,7 +237,7 @@
             //call update session function when user click on tab
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                  // console.log(e.target.getAttribute('aria-controls'))
-                update_session('tab', '' + e.target.getAttribute('aria-controls'))
+                update_session('evaluation_tab', '' + e.target.getAttribute('aria-controls'))
             });
             //update session
             function update_session(session_name, session_value){
