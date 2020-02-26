@@ -16,12 +16,15 @@
             <div class="col-5">
                 <div class="p-1 h-100" style="background-color: #ececec;">
                     <canvas id="trainee_each_tech_chart" width="1600" height="900"></canvas>
-                    <div class="m-auto" style="width: -moz-fit-content; width: fit-content;">
-                        @for($i = 0; $i < sizeof($trainee_each_tech_position); $i++)
-                            <span class="badge" style="background-color: {{ $colors[$i] }}; color: #fff;">{{ $trainee_each_tech_position[$i] }}: {{ $trainee_each_tech_number[$i] }}</span>
-                        @endfor
-                        <span class="badge badge-secondary">Total: {{ $total_trainee }}</span>
+                    <div class="row">
+                        <div class="col" style="width: -moz-fit-content; width: fit-content; margin-top: 75px;">
+                            @for($i = 0; $i < sizeof($trainee_each_tech_position); $i++)
+                                <span class="badge" style="background-color: {{ $colors[$i] }}; color: #fff;">{{ $trainee_each_tech_position[$i] }}: {{ $trainee_each_tech_number[$i] }}</span>
+                            @endfor
+                            <span class="badge badge-secondary w-100" style="font-size: 15px;">Total: {{ $total_trainee }}</span>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="col-7">

@@ -244,18 +244,18 @@
         $('#sex').change(function () {
             sex = $('select[name="sex"]').val();
             if(sex === "Female"){
-                $('#photo').attr('src', '{{ asset('img/woman_profile_icon.png') }}');
+                $('#photo2').attr('src', '{{ asset('img/woman_profile_icon.png') }}');
             }else{
-                $('#photo').attr('src', '{{ asset('img/man_profile_icon.png') }}');
+                $('#photo2').attr('src', '{{ asset('img/man_profile_icon.png') }}');
             }
         });
 
         $(document).ready(function () {
             sex = $('select[name="sex"]').val();
             if(sex === "Female"){
-                $('#photo').attr('src', '{{ asset('img/woman_profile_icon.png') }}');
+                $('#photo2').attr('src', '{{ asset('img/woman_profile_icon.png') }}');
             }else{
-                $('#photo').attr('src', '{{ asset('img/man_profile_icon.png') }}');
+                $('#photo2').attr('src', '{{ asset('img/man_profile_icon.png') }}');
             }
         });
     </script>
