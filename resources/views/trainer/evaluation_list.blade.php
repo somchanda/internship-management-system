@@ -87,8 +87,8 @@
                             <td>{{ $evaluation['period'] }}</td>
                             <td>{{ date('d/M/Y',strtotime($evaluation['date'])) }}</td>
                             <td>
-                                <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}"><i class="fas fa-user-edit"></i></div>
-                                <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}"><i class="fas fa-user-minus"></i></div>
+                                <div class="btn btn-warning btn_edit" data-toggle="modal" data-target=".bd-example-modal-lg" id="{{ $evaluation['id'] }}"><i class="far fa-edit"></i></div>
+                                <div class="btn btn-danger btn_delete" data-toggle="modal" data-target="#deleteModal" id="{{ $evaluation['id'] }}"><i class="far fa-trash-alt"></i></div>
                             </td>
                         </tr>
                     @endforeach
