@@ -32,11 +32,11 @@
         <li class="nav-item">
             <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Infomation</a>
         </li>
-        @if($traineeInfo != null)
+{{--        @if($traineeInfo != null)--}}
         <li class="nav-item">
             <a class="nav-link" id="cvInfo-tab" data-toggle="tab" href="#cvInfo" role="tab" aria-controls="cvInfo" aria-selected="false">CV Information</a>
         </li>
-        @endif
+{{--        @endif--}}
     </ul>
     <div class="tab-content mt-2 mb-2" id="myTabContent">
         <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
@@ -99,25 +99,41 @@
             </form>
         </div>
 
-        @if($traineeInfo != null)
+{{--        @if($traineeInfo != null)--}}
         <div class="tab-pane fade" id="cvInfo" role="tabpanel" aria-labelledby="cvInfo-tab">
             <form method="post" action="/trainee/update_cv_info" class="col-10 offset-1">
                 @csrf
                 <div class="form-group">
                     <label for="internship_status">Internship status</label>
                     <select name="internship_status" class="form-control" id="internship_status">
-                        <option @if($traineeInfo->internship_status == 'Doing Internship') selected @endif value="Doing Internship">Doing Internship</option>
-                        <option @if($traineeInfo->internship_status == 'Fail') selected @endif value="Fail">Fail</option>
-                        <option @if($traineeInfo->internship_status == 'Stop') selected @endif value="Stop">Stop</option>
-                        <option @if($traineeInfo->internship_status == 'Continue') selected @endif value="Continue">Continue</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->internship_status == 'Doing Internship') selected @endif @endif value="Doing Internship">Doing Internship</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->internship_status == 'Fail') selected @endif @endif value="Fail">Fail</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->internship_status == 'Stop') selected @endif @endif value="Stop">Stop</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->internship_status == 'Continue') selected @endif @endif value="Continue">Continue</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="position">Position</label>
-                    <input type="text" name="position" value="{{$traineeInfo->position}}" class="form-control" id="position" placeholder="position" required>
+                    <input type="text" name="position" value="@if($traineeInfo != null){{$traineeInfo->position}}@endif" class="form-control" id="position" placeholder="position" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('position') }}</small>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="contract_start">Start Contract</label>
+                    <input type="date" name="contract_start" value="@if($traineeInfo != null){{$traineeInfo->contract_start}}@endif" class="form-control" id="contract_start" placeholder="Start Contract" required>
+                    @if($errors != null)
+                        <small class="text-sm-left text-danger">{{ $errors->first('contract_start') }}</small>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <label for="contract_end">End Contract</label>
+                    <input type="date" name="contract_end" value="@if($traineeInfo != null){{$traineeInfo->contract_end}}@endif" class="form-control" id="contract_end" placeholder="End Contract" required>
+                    @if($errors != null)
+                        <small class="text-sm-left text-danger">{{ $errors->first('contract_end') }}</small>
                     @endif
                 </div>
 
@@ -154,6 +170,20 @@
                     ?>
                 @endforeach
                 </div>
+                @else
+                    <div class="row mb-1" id="rowSkill1">
+                        <div class="col-8">
+                            <input type="text" name="skill1" value="" class="form-control" id="skill1" placeholder="skill" required>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" min="1" max="10" name="skill_rate1" value="" class="form-control" id="skill_rate1" placeholder="rate" required>
+                        </div>
+                        <div class="col-1">
+                            <div class="btn btn-outline-danger" id="btnRemoveSkill1" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowSkills')">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -199,6 +229,20 @@
                         $counter += 1;
                         ?>
                     @endforeach
+                    </div>
+                @else
+                    <div class="row mb-1" id="rowWorkExperience1">
+                        <div class="col-2">
+                            <input type="text" name="work_experience_date1" value="" class="form-control text-center" id="work_experience_date1" placeholder="Date" required>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" name="work_experience_description1" value="" class="form-control" id="work_experience_description1" placeholder="Description" required>
+                        </div>
+                        <div class="col-1">
+                            <div class="btn btn-outline-danger" id="btnRemoveWorkExperience1" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowWorkExperiences')">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>
+                        </div>
                     </div>
                 @endif
 
@@ -246,6 +290,20 @@
                         ?>
                     @endforeach
                     </div>
+                @else
+                    <div class="row mb-1" id="rowEducation1">
+                        <div class="col-2">
+                            <input type="text" name="education_date1" value="" class="form-control text-center" id="education_date1" placeholder="Date" required>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" name="education_description1" value="" class="form-control" id="education_description1" placeholder="Description" required>
+                        </div>
+                        <div class="col-1">
+                            <div class="btn btn-outline-danger" id="btnRemoveEducation1" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowEducations')">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -292,6 +350,20 @@
                         ?>
                     @endforeach
                     </div>
+                @else
+                    <div class="row mb-1" id="rowLanguage1">
+                        <div class="col-2">
+                            <input type="text" name="language1" value="" class="form-control" id="language1" placeholder="Language" required>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" name="language_description1" value="" class="form-control" id="language_description1" placeholder="Description" required>
+                        </div>
+                        <div class="col-1">
+                            <div class="btn btn-outline-danger" id="btnRemoveLanguage1" onclick="remove_row_input($(this).parent().parent().attr('id'), 'rowLanguages')">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 <div class="row mb-2">
@@ -311,7 +383,7 @@
 
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input type="text" name="address" value="{{($traineeInfo->address)}}" class="form-control" id="address" placeholder="Address" required>
+                    <input type="text" name="address" value="@if($traineeInfo != null){{($traineeInfo->address)}}@endif" class="form-control" id="address" placeholder="Address" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('address') }}</small>
                     @endif
@@ -319,7 +391,7 @@
 
                 <div class="form-group">
                     <label for="height">Height</label>
-                    <input type="text" name="height" value="{{($traineeInfo->height)}}" class="form-control" id="height" placeholder="Height" required>
+                    <input type="text" name="height" value="@if($traineeInfo != null){{($traineeInfo->height)}}@endif" class="form-control" id="height" placeholder="Height" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('height') }}</small>
                     @endif
@@ -327,7 +399,7 @@
 
                 <div class="form-group">
                     <label for="dob">Date of birth</label>
-                    <input type="date" name="dob" value="{{($traineeInfo->dob)}}" class="form-control" id="dob" placeholder="Date of birth" required>
+                    <input type="date" name="dob" value="@if($traineeInfo != null){{($traineeInfo->dob)}}@endif" class="form-control" id="dob" placeholder="Date of birth" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('dob') }}</small>
                     @endif
@@ -335,7 +407,7 @@
 
                 <div class="form-group">
                     <label for="place_of_birth">Place of birth</label>
-                    <input type="text" name="place_of_birth" value="{{($traineeInfo->place_of_birth)}}" class="form-control" id="place_of_birth" placeholder="Place of birth" required>
+                    <input type="text" name="place_of_birth" value="@if($traineeInfo != null){{($traineeInfo->place_of_birth)}}@endif" class="form-control" id="place_of_birth" placeholder="Place of birth" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('place_of_birth') }}</small>
                     @endif
@@ -343,7 +415,7 @@
 
                 <div class="form-group">
                     <label for="nationality">Nationality</label>
-                    <input type="text" name="nationality" value="{{($traineeInfo->nationality)}}" class="form-control" id="nationality" placeholder="Nationality" required>
+                    <input type="text" name="nationality" value="@if($traineeInfo != null){{($traineeInfo->nationality)}}@endif" class="form-control" id="nationality" placeholder="Nationality" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('nationality') }}</small>
                     @endif
@@ -352,14 +424,14 @@
                 <div class="form-group">
                     <label for="marital_status">Marital status</label>
                     <select name="marital_status" class="form-control" id="marital_status">
-                        <option @if($traineeInfo->marital_status == 'Married') selected @endif value="Married">Married</option>
-                        <option @if($traineeInfo->marital_status == 'Single') selected @endif value="Single">Single</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->marital_status == 'Married') selected @endif @endif value="Married">Married</option>
+                        <option @if($traineeInfo != null) @if($traineeInfo->marital_status == 'Single') selected @endif @endif value="Single">Single</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="hobbies">Hobbies</label>
-                    <input type="text" name="hobbies" value="{{($traineeInfo->hobbies)}}" class="form-control" id="hobbies" placeholder="Hobbies" required>
+                    <input type="text" name="hobbies" value="@if($traineeInfo != null){{($traineeInfo->hobbies)}}@endif" class="form-control" id="hobbies" placeholder="Hobbies" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('hobbies') }}</small>
                     @endif
@@ -379,7 +451,7 @@
 
                 <div class="form-group">
                     <label for="reference_name">Name</label>
-                    <input type="text" name="reference_name" value="{{($traineeInfo->reference_name)}}" class="form-control" id="reference_name" placeholder="Name" required>
+                    <input type="text" name="reference_name" value="@if($traineeInfo != null){{($traineeInfo->reference_name)}}@endif" class="form-control" id="reference_name" placeholder="Name" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_name') }}</small>
                     @endif
@@ -387,7 +459,7 @@
 
                 <div class="form-group">
                     <label for="reference_position">Position</label>
-                    <input type="text" name="reference_position" value="{{($traineeInfo->reference_position)}}" class="form-control" id="reference_position" placeholder="Position" required>
+                    <input type="text" name="reference_position" value="@if($traineeInfo != null){{($traineeInfo->reference_position)}}@endif" class="form-control" id="reference_position" placeholder="Position" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_position') }}</small>
                     @endif
@@ -395,7 +467,7 @@
 
                 <div class="form-group">
                     <label for="reference_phone">Phone</label>
-                    <input type="text" name="reference_phone" value="{{($traineeInfo->reference_phone)}}" class="form-control" id="reference_phone" placeholder="Phone" required>
+                    <input type="text" name="reference_phone" value="@if($traineeInfo != null){{($traineeInfo->reference_phone)}}@endif" class="form-control" id="reference_phone" placeholder="Phone" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_phone') }}</small>
                     @endif
@@ -403,7 +475,7 @@
 
                 <div class="form-group">
                     <label for="reference_email">Email</label>
-                    <input type="text" name="reference_email" value="{{($traineeInfo->reference_email)}}" class="form-control" id="reference_email" placeholder="Email" required>
+                    <input type="text" name="reference_email" value="@if($traineeInfo != null){{($traineeInfo->reference_email)}}@endif" class="form-control" id="reference_email" placeholder="Email" required>
                     @if($errors != null)
                         <small class="text-sm-left text-danger">{{ $errors->first('reference_email') }}</small>
                     @endif
@@ -418,15 +490,19 @@
 
                 <input type="hidden" id="langs" name="langs" value="">
 
+                @if($traineeInfo != null)
                 <input type="hidden" id="id" name="id" value="{{ $traineeInfo->id }}"/>
+                @else
+                    <input type="hidden" id="id" name="id" value="-1"/>
+                @endif
 
-                <input type="hidden" id="user_id" name="user_id" value="{{ $traineeInfo->user_id }}"/>
+                <input type="hidden" id="user_id" name="user_id" value="{{ $trainee->id }}"/>
 
 
                 <input type="submit" name="btn_save" value="Save Change" class="btn btn-info">
             </form>
         </div>
-        @endif
+{{--        @endif--}}
     </div>
 
 

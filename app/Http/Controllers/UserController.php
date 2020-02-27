@@ -269,9 +269,16 @@ class UserController extends Controller
             'reference_phone' => 'required',
             'reference_email' => 'required',
         ]);
+        if($request->id == -1){
+            $traineeInfo = new Trainee_info;
+        }else{
+            $traineeInfo = Trainee_info::find($request->id);
+        }
 
-        $traineeInfo = Trainee_info::find($request->id);
+        $traineeInfo->user_id = $request->user_id;
         $traineeInfo->internship_status = $request->internship_status;
+        $traineeInfo->contract_start = $request->contract_start;
+        $traineeInfo->contract_end = $request->contract_end;
         $traineeInfo->position = $request->position;
         $traineeInfo->address = $request->address;
         $traineeInfo->height = $request->height;
